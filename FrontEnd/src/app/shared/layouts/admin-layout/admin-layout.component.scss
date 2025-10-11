@@ -1,0 +1,15 @@
+.admin-layout {
+  display: flex;
+  height: 100vh; // Ocupa toda la altura de la pantalla
+}
+
+.sidebar {
+  flex: 0 0 250px; // Ancho fijo de 250px, no crece ni se encoge
+}
+
+.content {
+  flex-grow: 1; // Ocupa todo el espacio restante
+  padding: 2rem;
+  overflow-y: auto; // Agrega scroll si el contenido es muy largo
+  background-color: var(--color-content-bg); // Usa el color de fondo que definimos
+}

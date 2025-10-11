@@ -1,0 +1,46 @@
+<div class="dashboard-container">
+  <h1 class="dashboard-title">Resumen del Almacén</h1>
+  
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="card-icon icon-products">
+        📦
+      </div>
+      <div class="card-info">
+        <span class="value">{{ totalProductos }}</span>
+        <span class="label">Productos Totales</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="card-icon icon-low-stock">
+        ⚠️
+      </div>
+      <div class="card-info">
+        <span class="value">{{ productosStockBajo }}</span>
+        <span class="label">Con Stock Bajo</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="card-icon icon-suppliers">
+        🚚
+      </div>
+      <div class="card-info">
+        <span class="value">{{ totalProveedores }}</span>
+        <span class="label">Proveedores</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="card-icon icon-sales">
+        📈
+      </div>
+      <div class="card-info">
+        <span class="value">{{ salidasHoy }}</span>
+        <span class="label">Salidas del Día</span>
+      </div>
+    </div>
+  </div>
+
+  </div>

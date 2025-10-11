@@ -1,0 +1,15 @@
+<nav class="sidebar-nav">
+  <div class="logo">
+    <h2>Ferretería App</h2>
+  </div>
+  <ul class="nav-list">
+    <li><a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a></li>
+    <li><a routerLink="/admin/inventario" routerLinkActive="active">Inventario</a></li>
+    <li><a routerLink="/admin/movimientos" routerLinkActive="active">Movimientos</a></li>
+    <li><a routerLink="/admin/personal" routerLinkActive="active">Personal</a></li>
+    <li><a routerLink="/admin/proveedores" routerLinkActive="active">Proveedores</a></li>
+  </ul>
+  <div class="logout-section">
+    <button (click)="logout()">Cerrar Sesión</button>
+  </div>
+</nav>
