@@ -26,12 +26,15 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
+    // Si el formulario es inválido, no hace nada
     if (this.loginForm.invalid) {
       return;
     }
 
+    // Llama al servicio de autenticación con los datos del formulario
     this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
+        // Si el login es exitoso, redirige según el rol
         if (response.usuario.rol === 'Administrador') {
           this.router.navigate(['/admin']);
         } else if (response.usuario.rol === 'Trabajador') {
@@ -39,7 +42,9 @@ export class LoginComponent {
         }
       },
       error: (err) => {
+        // En caso de error, lo muestra en la consola
         console.error('Error en el login:', err);
+        // Aquí podrías añadir una alerta para el usuario
       }
     });
   }

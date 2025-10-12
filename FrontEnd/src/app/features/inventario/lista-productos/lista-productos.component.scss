@@ -1,0 +1,80 @@
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  margin: 0;
+  color: var(--color-dark-primary);
+}
+
+.btn-add {
+  background-color: var(--color-accent);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.search-container {
+  margin-bottom: 1.5rem;
+  input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+}
+
+.table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  tbody tr:hover {
+    background-color: #f9f9f9;
+  }
+}
+
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    border: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+
+    &.btn-edit { background-color: #ffc107; }
+    &.btn-delete { background-color: #f44336; }
+  }
+}

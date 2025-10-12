@@ -1,0 +1,52 @@
+<div class="inventario-wrapper">
+  <header class="header">
+    <h1>Inventario disponible</h1>
+    <p>Consulta rápida del stock para responder a clientes o preparar pedidos.</p>
+  </header>
+
+  <section class="search-panel">
+    <label for="busqueda">Buscar producto</label>
+    <input
+      id="busqueda"
+      type="text"
+      placeholder="Ingresa nombre o SKU..."
+      (input)="filtrarInventario($event)"
+    >
+  </section>
+
+  <section class="tabla-wrapper" *ngIf="productosFiltrados.length; else sinResultados">
+    <table>
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Producto</th>
+          <th>Descripción</th>
+          <th>Stock</th>
+          <th>P. compra</th>
+          <th>Stock mínimo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosFiltrados">
+          <td>{{ producto.codigo_sku }}</td>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.descripcion }}</td>
+          <td>
+            <span class="badge" [class.peligro]="producto.stock_actual <= producto.stock_minimo">
+              {{ producto.stock_actual }}
+            </span>
+          </td>
+          <td>{{ producto.precio_compra | currency:'S/ ' }}</td>
+          <td>{{ producto.stock_minimo }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <ng-template #sinResultados>
+    <div class="empty">
+      <p>No encontramos coincidencias para "{{ termino }}".</p>
+      <span>Verifica el nombre o código e intenta nuevamente.</span>
+    </div>
+  </ng-template>
+</div>

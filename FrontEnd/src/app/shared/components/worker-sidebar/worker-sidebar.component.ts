@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-worker-sidebar',
@@ -13,6 +12,12 @@ import { inject } from '@angular/core';
 })
 export class WorkerSidebarComponent {
   private authService = inject(AuthService);
+
+  navLinks = [
+    { label: 'Inicio', routerLink: '/worker/operaciones', exact: true },
+    { label: 'Registrar movimiento', routerLink: '/worker/registro-movimiento', exact: true },
+    { label: 'Ver inventario', routerLink: '/worker/inventario', exact: true }
+  ];
 
   logout(): void {
     this.authService.logout();

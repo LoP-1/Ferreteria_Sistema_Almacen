@@ -1,1 +1,80 @@
-<p>operaciones works!</p>
+<div class="operaciones-wrapper">
+  <header class="header">
+    <div>
+      <h1>Bienvenido, Alva</h1>
+      <p>Selecciona una acción para empezar.</p>
+    </div>
+    <div class="turno">
+      <h2>Turno actual</h2>
+      <ul>
+        <li><strong>Responsable:</strong> {{ turnoActual.responsable }}</li>
+        <li><strong>Horario:</strong> {{ turnoActual.horario }}</li>
+        <li><strong>Ubicación:</strong> {{ turnoActual.ubicacion }}</li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="actions-grid">
+    <button
+      class="action-card"
+      *ngFor="let action of quickActions"
+      type="button"
+      (click)="action.handler()"
+    >
+      <span class="image-wrapper" [ngSwitch]="action.icon">
+        <svg *ngSwitchCase="'salida'" class="icon-svg" viewBox="0 0 112 112" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect x="6" y="6" width="100" height="100" rx="18" fill="#fee2e2" stroke="#ef4444" stroke-width="4" />
+          <path d="M56 68V32" stroke="#ef4444" stroke-width="6" stroke-linecap="round" />
+          <path d="M40 48l16 16 16-16" fill="none" stroke="#ef4444" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg *ngSwitchCase="'entrada'" class="icon-svg" viewBox="0 0 112 112" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect x="6" y="6" width="100" height="100" rx="18" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="4" />
+          <path d="M56 44v36" stroke="#0ea5e9" stroke-width="6" stroke-linecap="round" />
+          <path d="M40 64l16 16 16-16" fill="none" stroke="#0ea5e9" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <svg *ngSwitchCase="'consulta'" class="icon-svg" viewBox="0 0 112 112" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect x="6" y="6" width="100" height="100" rx="18" fill="#fef3c7" stroke="#f59e0b" stroke-width="4" />
+          <circle cx="52" cy="52" r="20" fill="none" stroke="#f59e0b" stroke-width="6" />
+          <line x1="68" y1="68" x2="88" y2="88" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" />
+        </svg>
+      </span>
+      <div class="card-text">
+        <span class="label">{{ action.label }}</span>
+        <span class="description">{{ action.description }}</span>
+      </div>
+    </button>
+  </section>
+
+  <section class="info-grid">
+    <div class="panel movimientos">
+      <div class="panel-header">
+        <h3>Movimientos recientes</h3>
+        <button type="button" (click)="quickActions[0].handler()">Registrar salida</button>
+      </div>
+      <ul>
+        <li *ngFor="let movimiento of movimientosRecientes">
+          <span class="badge" [class.entrada]="movimiento.tipo === 'Entrada'">{{ movimiento.tipo }}</span>
+          <div class="detalle">
+            <strong>{{ movimiento.producto }}</strong>
+            <small>{{ movimiento.cantidad }} unidades · {{ movimiento.hora }}</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="panel tareas">
+      <div class="panel-header">
+        <h3>Tareas pendientes</h3>
+        <button type="button" (click)="navigateToInventario()">Ver inventario</button>
+      </div>
+      <ul>
+        <li *ngFor="let tarea of tareasPendientes">
+          <span class="badge" [class.entrada]="tarea.prioridad === 'Baja'">{{ tarea.prioridad }}</span>
+          <div class="detalle">
+            <strong>{{ tarea.descripcion }}</strong>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>

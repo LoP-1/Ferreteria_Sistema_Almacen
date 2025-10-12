@@ -1,0 +1,69 @@
+// Reutilizamos la mayoría de los estilos de las otras tablas
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  input {
+    width: 320px;
+    padding: 0.7rem 1rem;
+    border: 1px solid #ccd5dd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+}
+
+h1 {
+  margin: 0;
+  color: var(--color-dark-primary);
+}
+
+.table-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+  font-weight: bold;
+  color: #555;
+}
+
+tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+// Estilos para la "etiqueta" de Entrada/Salida
+.tipo-badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: white;
+
+  &.tipo-entrada {
+    background-color: #388e3c; // Verde
+  }
+
+  &.tipo-salida {
+    background-color: #d32f2f; // Rojo
+  }
+}

@@ -1,0 +1,90 @@
+<div class="header">
+  <h1>Gestión de Proveedores</h1>
+  <button class="btn-add" (click)="onAgregar()">Añadir Nuevo Proveedor</button>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Empresa</th>
+        <th>RUC</th>
+        <th>Nombre de Contacto</th>
+        <th>Teléfono</th>
+        <th>Correo</th>
+        <th>Descripción de Oferta</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let proveedor of proveedores">
+        <td>{{ proveedor.nombre_empresa }}</td>
+        <td>{{ proveedor.ruc }}</td>
+        <td>{{ proveedor.contacto_nombre }}</td>
+        <td>{{ proveedor.telefono }}</td>
+        <td>{{ proveedor.email }}</td>
+        <td class="descripcion">{{ proveedor.descripcion_oferta }}</td>
+        <td class="acciones">
+          <button class="btn-edit" (click)="onEditar(proveedor)">Editar</button>
+          <button class="btn-delete" (click)="onEliminar(proveedor)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal de creación/edición -->
+<div class="modal-backdrop" *ngIf="showEditModal">
+  <div class="modal">
+    <header>
+      <h2>{{ proveedorSeleccionado ? 'Editar proveedor' : 'Nuevo proveedor' }}</h2>
+      <button class="close" (click)="cerrarModales()">×</button>
+    </header>
+    <form [formGroup]="proveedorForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <label>
+          Empresa
+          <input formControlName="nombre_empresa" type="text" />
+        </label>
+        <label>
+          RUC
+          <input formControlName="ruc" type="text" />
+        </label>
+        <label>
+          Contacto
+          <input formControlName="contacto_nombre" type="text" />
+        </label>
+        <label>
+          Teléfono
+          <input formControlName="telefono" type="text" />
+        </label>
+        <label>
+          Email
+          <input formControlName="email" type="email" />
+        </label>
+        <label>
+          Descripción de la oferta
+          <textarea formControlName="descripcion_oferta" rows="3"></textarea>
+        </label>
+      </div>
+      <footer>
+        <button type="button" class="btn-secondary" (click)="cerrarModales()">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </footer>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal-backdrop" *ngIf="showDeleteModal">
+  <div class="modal confirm">
+    <header>
+      <h2>Eliminar proveedor</h2>
+    </header>
+    <p>¿Seguro que deseas eliminar a {{ proveedorSeleccionado?.nombre_empresa }}?</p>
+    <footer>
+      <button class="btn-secondary" (click)="cerrarModales()">Cancelar</button>
+      <button class="btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+    </footer>
+  </div>
+</div>

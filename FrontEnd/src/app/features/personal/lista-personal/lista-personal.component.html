@@ -1,0 +1,85 @@
+<div class="header">
+  <h1>Gestión de Personal</h1>
+  <button class="btn-add" (click)="onAgregar()">Añadir Nuevo Empleado</button>
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empleado of personal">
+        <td>{{ empleado.nombres }}</td>
+        <td>{{ empleado.apellidos }}</td>
+        <td>{{ empleado.email }}</td>
+        <td>{{ empleado.rol }}</td>
+        <td class="acciones">
+          <button class="btn-edit" (click)="onEditar(empleado)">Editar</button>
+          <button class="btn-delete" (click)="onEliminar(empleado)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal de creación/edición -->
+<div class="modal-backdrop" *ngIf="showEditModal">
+  <div class="modal">
+    <header>
+      <h2>{{ empleadoSeleccionado ? 'Editar empleado' : 'Nuevo empleado' }}</h2>
+      <button class="close" (click)="cerrarModales()">×</button>
+    </header>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <label>
+          Nombres
+          <input formControlName="nombres" type="text" />
+        </label>
+        <label>
+          Apellidos
+          <input formControlName="apellidos" type="text" />
+        </label>
+        <label>
+          Email
+          <input formControlName="email" type="email" />
+        </label>
+        <label>
+          Teléfono
+          <input formControlName="telefono" type="text" />
+        </label>
+        <label>
+          Rol
+          <select formControlName="rol">
+            <option value="Administrador">Administrador</option>
+            <option value="Trabajador">Trabajador</option>
+          </select>
+        </label>
+      </div>
+      <footer>
+        <button type="button" class="btn-secondary" (click)="cerrarModales()">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </footer>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal-backdrop" *ngIf="showDeleteModal">
+  <div class="modal confirm">
+    <header>
+      <h2>Eliminar empleado</h2>
+    </header>
+    <p>¿Seguro que deseas eliminar a {{ empleadoSeleccionado?.nombres }} {{ empleadoSeleccionado?.apellidos }}?</p>
+    <footer>
+      <button class="btn-secondary" (click)="cerrarModales()">Cancelar</button>
+      <button class="btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+    </footer>
+  </div>
+</div>

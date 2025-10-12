@@ -1,1 +1,22 @@
-<p>worker-sidebar works!</p>
+<nav class="sidebar-nav">
+	<div class="logo">
+		<h2>Ferretería App</h2>
+		<span>Modo trabajador</span>
+	</div>
+
+	<ul class="nav-list">
+		<li *ngFor="let link of navLinks">
+			<a
+				[routerLink]="link.routerLink"
+				routerLinkActive="active"
+				[routerLinkActiveOptions]="{ exact: link.exact }"
+			>
+				{{ link.label }}
+			</a>
+		</li>
+	</ul>
+
+	<div class="logout-section">
+		<button type="button" (click)="logout()">Cerrar sesión</button>
+	</div>
+</nav>

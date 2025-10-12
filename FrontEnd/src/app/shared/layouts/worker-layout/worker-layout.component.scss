@@ -1,0 +1,15 @@
+.worker-layout {
+	display: flex;
+	min-height: 100vh;
+	background: linear-gradient(180deg, #f4f7fb 0%, #eef1f6 40%, #fdfdff 100%);
+}
+
+.sidebar {
+	width: 260px;
+	flex-shrink: 0;
+}
+
+.content {
+	flex: 1;
+	padding: 2.5rem;
+}

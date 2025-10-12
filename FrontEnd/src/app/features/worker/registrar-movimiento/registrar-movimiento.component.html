@@ -1,0 +1,70 @@
+<div class="registro-wrapper">
+  <header class="header">
+    <h1>Registrar movimiento</h1>
+    <p>Completa la información para registrar una entrada o salida en el inventario.</p>
+  </header>
+
+  <section class="form-card">
+    <form [formGroup]="movimientoForm" (ngSubmit)="registrarMovimiento()">
+      <div class="form-row">
+        <label for="tipo">Tipo de movimiento</label>
+        <div class="radio-group" id="tipo">
+          <label>
+            <input type="radio" value="Entrada" formControlName="tipo">
+            Entrada
+          </label>
+          <label>
+            <input type="radio" value="Salida" formControlName="tipo">
+            Salida
+          </label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="productoId">Producto</label>
+        <select id="productoId" formControlName="productoId">
+          <option [ngValue]="null">Selecciona un producto</option>
+          <option *ngFor="let producto of productos" [ngValue]="producto.id_producto">
+            {{ producto.codigo_sku }} - {{ producto.nombre }}
+          </option>
+        </select>
+  <small *ngIf="productoControl?.invalid && productoControl?.touched" class="error">
+          Debes seleccionar un producto.
+        </small>
+      </div>
+
+      <div class="form-row">
+        <label for="cantidad">Cantidad</label>
+        <input id="cantidad" type="number" min="1" formControlName="cantidad">
+  <small *ngIf="cantidadControl?.invalid && cantidadControl?.touched" class="error">
+          Ingresa una cantidad válida (mínimo 1).
+        </small>
+      </div>
+
+      <div class="form-row">
+        <label for="notas">Notas (opcional)</label>
+        <textarea id="notas" rows="3" formControlName="notas" placeholder="Detalle adicional del movimiento"></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="submit">Registrar movimiento</button>
+      </div>
+    </form>
+
+    <div *ngIf="feedbackMessage" class="feedback">
+      {{ feedbackMessage }}
+    </div>
+  </section>
+
+  <section class="recientes" *ngIf="movimientosRecientes.length > 0">
+    <h2>Últimos movimientos registrados</h2>
+    <ul>
+      <li *ngFor="let movimiento of movimientosRecientes">
+        <strong>{{ movimiento.tipo }}</strong>
+        <span>{{ movimiento.producto }}</span>
+        <small>Cantidad: {{ movimiento.cantidad }} · Registrado a las {{ movimiento.hora }}</small>
+        <em *ngIf="movimiento.notas">{{ movimiento.notas }}</em>
+      </li>
+    </ul>
+  </section>
+</div>

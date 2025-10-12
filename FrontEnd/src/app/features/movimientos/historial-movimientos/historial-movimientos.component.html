@@ -1,0 +1,36 @@
+<div class="header">
+  <h1>Historial de Movimientos</h1>
+  <input
+    type="text"
+    placeholder="Buscar por tipo, producto, empleado o fecha..."
+    [(ngModel)]="searchTerm"
+    (input)="onBuscar()"
+  />
+</div>
+
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Empleado Responsable</th>
+        <th>Fecha y Hora</th>
+      </tr>
+    </thead>
+    <tbody>
+  <tr *ngFor="let movimiento of filteredMovimientos">
+        <td>
+          <span class="tipo-badge" [ngClass]="getTipoClase(movimiento.tipo)">
+            {{ movimiento.tipo }}
+          </span>
+        </td>
+        <td>{{ movimiento.producto_nombre }}</td>
+        <td>{{ movimiento.cantidad }}</td>
+        <td>{{ movimiento.empleado_nombre }}</td>
+        <td>{{ movimiento.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
