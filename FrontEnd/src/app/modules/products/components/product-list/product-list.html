@@ -1,0 +1,144 @@
+<div class="bg-neutral-light dark:bg-dark-background min-h-screen p-4 sm:p-6 lg:p-8 font-sans text-text-dark dark:text-dark-text animate-fade-in">
+  <div class="max-w-7xl mx-auto">
+
+    <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
+      <div class="animate-slide-in-left">
+        <h1 class="text-4xl font-bold text-primary dark:text-dark-primary">Inventario de Ferretería</h1>
+        <p class="text-text-dark/70 dark:text-dark-text/70 mt-1">Gestiona, visualiza y controla tus productos.</p>
+      </div>
+      <a routerLink="new"
+        class="mt-4 sm:mt-0 flex items-center gap-2 px-6 py-3 bg-secondary text-text-dark dark:text-dark-background font-bold rounded-lg shadow-lg hover:shadow-xl hover:bg-yellow-500 dark:hover:bg-yellow-400 transform hover:-translate-y-1 transition-all duration-300 ease-in-out animate-slide-in-right">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+        </svg>
+        Añadir Producto
+      </a>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border border-gray-200/50 dark:border-zinc-700/50 p-6 rounded-2xl shadow-md animate-scale-in" style="--delay: 100ms;">
+        <h3 class="text-sm font-semibold text-primary/80 dark:text-dark-primary/80">Total de Productos</h3>
+        <p class="text-3xl font-bold text-primary dark:text-dark-primary">{{ products.length }}</p>
+      </div>
+      <div class="bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border border-gray-200/50 dark:border-zinc-700/50 p-6 rounded-2xl shadow-md animate-scale-in" style="--delay: 200ms;">
+        <h3 class="text-sm font-semibold text-primary/80 dark:text-dark-primary/80">Valor del Inventario</h3>
+        <p class="text-3xl font-bold text-primary dark:text-dark-primary">$15,240.50</p>
+      </div>
+      <div class="bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border border-gray-200/50 dark:border-zinc-700/50 p-6 rounded-2xl shadow-md animate-scale-in" style="--delay: 300ms;">
+        <h3 class="text-sm font-semibold text-accent-red/80 dark:text-dark-red/80">Bajo Stock (&lt;10)</h3>
+        <p class="text-3xl font-bold text-accent-red dark:text-dark-red">2</p>
+      </div>
+      <div class="bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border border-gray-200/50 dark:border-zinc-700/50 p-6 rounded-2xl shadow-md animate-scale-in" style="--delay: 400ms;">
+        <h3 class="text-sm font-semibold text-text-dark/60 dark:text-dark-text/60">Sin Stock</h3>
+        <p class="text-3xl font-bold text-text-dark/80 dark:text-dark-text/80">2</p>
+      </div>
+    </div>
+
+    <main class="bg-white dark:bg-zinc-800/70 rounded-2xl shadow-xl overflow-hidden animate-fade-in-up" style="--delay: 500ms;">
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left text-text-dark dark:text-dark-text">
+          <thead class="text-xs text-white dark:text-dark-text uppercase bg-primary dark:bg-dark-primary">
+            <tr>
+              <th scope="col" class="px-6 py-4">Producto</th>
+              <th scope="col" class="px-6 py-4">Código</th>
+              <th scope="col" class="px-6 py-4">Categoría</th>
+              <th scope="col" class="px-6 py-4 text-center">Stock</th>
+              <th scope="col" class="px-6 py-4 text-right">Precio</th>
+              <th scope="col" class="px-6 py-4 text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products"
+              class="border-b border-neutral-light/50 dark:border-zinc-700/50 hover:bg-primary/5 dark:hover:bg-dark-primary/10 group transition-all duration-300">
+              <td class="px-6 py-4 font-medium">{{ product.name }}</td>
+              <td class="px-6 py-4 text-text-dark/70 dark:text-dark-text/70">{{ product.code }}</td>
+              <td class="px-6 py-4">{{ product.category }}</td>
+              <td class="px-6 py-4 text-center">
+                <span class="px-3 py-1 text-xs font-semibold rounded-full"
+                  [ngClass]="{
+                    'bg-accent-green/20 text-accent-green dark:bg-dark-green/20 dark:text-dark-green': product.stock > 10,
+                    'bg-yellow-400/20 text-yellow-600 dark:bg-yellow-400/20 dark:text-yellow-400': product.stock > 0 && product.stock <= 10,
+                    'bg-accent-red/20 text-accent-red dark:bg-dark-red/20 dark:text-dark-red': product.stock === 0
+                  }">
+                  {{ product.stock }} unidades
+                </span>
+              </td>
+              <td class="px-6 py-4 font-semibold text-right">${{ product.price.toFixed(2) }}</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <button (click)="openModal(product)" class="text-primary dark:text-dark-primary hover:text-primary-hover transform hover:scale-125 transition-transform duration-300" title="Ver Detalles">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                      <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                  <a routerLink="/products/edit/{{product.id}}" class="text-secondary hover:text-orange-500 dark:hover:text-yellow-400 transform hover:scale-125 transition-transform duration-300" title="Editar Producto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                      <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                    </svg>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div *ngIf="isModalOpen"
+  (click)="closeModal()"
+  class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-300"
+  [ngClass]="isModalOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+
+  <div *ngIf="selectedProduct" 
+    (click)="$event.stopPropagation()"
+    class="bg-white/80 dark:bg-dark-background/80 backdrop-blur-xl border border-white/20 dark:border-zinc-700/50 rounded-2xl shadow-2xl w-full max-w-2xl m-4 text-text-dark dark:text-dark-text transition-all duration-300"
+    [ngClass]="isModalOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'">
+    
+    <div class="flex justify-between items-center p-6 border-b border-gray-300/50 dark:border-zinc-700/50">
+      <div>
+        <h2 class="text-2xl font-bold text-primary dark:text-dark-primary">{{ selectedProduct.name }}</h2>
+        <p class="text-sm text-text-dark/70 dark:text-dark-text/70">{{ selectedProduct.code }}</p>
+      </div>
+      <button (click)="closeModal()" class="text-text-dark/50 dark:text-dark-text/50 hover:text-accent-red dark:hover:text-dark-red transition-colors duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="flex flex-col items-center">
+        <img [src]="selectedProduct.imageUrl" [alt]="selectedProduct.name" class="w-48 h-48 object-cover rounded-lg shadow-lg mb-4">
+        <span class="px-4 py-1.5 text-lg font-bold rounded-full"
+          [ngClass]="{
+            'bg-accent-green/20 text-accent-green dark:bg-dark-green/20 dark:text-dark-green': selectedProduct.stock > 10,
+            'bg-yellow-400/20 text-yellow-600 dark:bg-yellow-400/20 dark:text-yellow-400': selectedProduct.stock > 0 && selectedProduct.stock <= 10,
+            'bg-accent-red/20 text-accent-red dark:bg-dark-red/20 dark:text-dark-red': selectedProduct.stock === 0
+          }">
+          {{ selectedProduct.stock > 0 ? (selectedProduct.stock + ' en Stock') : 'Sin Stock' }}
+        </span>
+      </div>
+      <div>
+        <p class="mb-6 text-text-dark/90 dark:text-dark-text/90">{{ selectedProduct.description }}</p>
+        <div class="space-y-3 text-sm">
+          <div class="flex justify-between border-b border-gray-200 dark:border-zinc-700 pb-2">
+            <span class="font-semibold text-primary dark:text-dark-primary">Categoría:</span>
+            <span>{{ selectedProduct.category }}</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-200 dark:border-zinc-700 pb-2">
+            <span class="font-semibold text-primary dark:text-dark-primary">Proveedor:</span>
+            <span>{{ selectedProduct.supplier }}</span>
+          </div>
+          <div class="flex justify-between items-baseline pt-4">
+            <span class="font-semibold text-primary dark:text-dark-primary text-lg">Precio Unitario:</span>
+            <span class="text-3xl font-bold text-secondary">${{ selectedProduct.price.toFixed(2) }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

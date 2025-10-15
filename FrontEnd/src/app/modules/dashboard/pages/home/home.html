@@ -1,0 +1,113 @@
+<div class="p-8 bg-neutral-light dark:bg-dark-background min-h-screen w-full font-sans text-text-dark dark:text-dark-text overflow-y-auto">
+
+  <div class="animate-fade-in-up">
+    <h1 class="text-4xl font-bold text-primary dark:text-dark-primary">Bienvenido, Administrador</h1>
+    <p class="mt-2 text-gray-500 dark:text-gray-400">Este es el resumen en tiempo real del estado de la ferretería.</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
+
+    <div class="bg-primary/90 dark:bg-dark-primary/90 backdrop-blur-xl p-6 rounded-2xl shadow-2xl text-white dark:text-dark-text transform hover:-translate-y-2 transition-all duration-300 custom-ease animate-scale-in" style="animation-delay: 100ms;">
+      <div class="flex justify-between items-start">
+        <div class="flex flex-col">
+          <span class="text-lg text-white/70 dark:text-dark-text/70">Total de Productos</span>
+          <span class="text-5xl font-bold mt-1">{{ kpi.totalProducts }}</span>
+        </div>
+        <div class="bg-white/20 dark:bg-dark-text/10 p-3 rounded-xl">
+          <svg class="h-7 w-7 text-white dark:text-dark-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-zinc-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-zinc-700 transform hover:-translate-y-2 transition-all duration-300 custom-ease animate-scale-in" style="animation-delay: 200ms;">
+      <div class="flex justify-between items-start">
+        <div class="flex flex-col">
+          <span class="text-lg text-gray-500 dark:text-gray-400">Salidas del Día</span>
+          <span class="text-5xl font-bold text-accent-green dark:text-dark-green mt-1">S/{{ kpi.dailySales.toFixed(2) }}</span>
+        </div>
+        <div class="bg-accent-green/10 dark:bg-dark-green/10 p-3 rounded-xl">
+          <svg class="h-7 w-7 text-accent-green dark:text-dark-green" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-zinc-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-zinc-700 transform hover:-translate-y-2 transition-all duration-300 custom-ease animate-scale-in" style="animation-delay: 300ms;">
+      <div class="flex justify-between items-start">
+        <div class="flex flex-col">
+          <span class="text-lg text-gray-500 dark:text-gray-400">Stock Bajo / Agotado</span>
+          <span class="text-5xl font-bold text-secondary mt-1">{{ kpi.lowStockItems }}</span>
+        </div>
+        <div class="bg-secondary/10 p-3 rounded-xl">
+          <svg class="h-7 w-7 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-zinc-800 p-6 rounded-2xl shadow-xl border border-gray-200 dark:border-zinc-700 transform hover:-translate-y-2 transition-all duration-300 custom-ease animate-scale-in" style="animation-delay: 400ms;">
+      <div class="flex justify-between items-start">
+        <div class="flex flex-col">
+          <span class="text-lg text-gray-500 dark:text-gray-400">Nuevos Pedidos</span>
+          <span class="text-5xl font-bold text-primary dark:text-dark-primary mt-1">{{ kpi.newOrders }}</span>
+        </div>
+        <div class="bg-primary/10 dark:bg-dark-primary/10 p-3 rounded-xl">
+          <svg class="h-7 w-7 text-primary dark:text-dark-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 bg-white dark:bg-zinc-800 rounded-2xl shadow-lg p-6 animate-fade-in-up" style="animation-delay: 500ms;">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold text-primary dark:text-dark-primary">Productos con Stock Crítico</h2>
+      <a href="#" class="text-sm font-semibold text-secondary hover:underline">Ver todo el inventario</a>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b-2 border-neutral-light dark:border-zinc-700">
+            <th class="p-4 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase">Producto</th>
+            <th class="p-4 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase">Categoría</th>
+            <th class="p-4 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase text-center">Stock Restante</th>
+            <th class="p-4 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase">Estado</th>
+            <th class="p-4 text-sm font-bold text-gray-500 dark:text-gray-400 uppercase text-center">Acción Rápida</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of criticalProducts; let i = index" 
+              class="border-b border-gray-100 dark:border-zinc-700/50 hover:bg-primary/5 dark:hover:bg-dark-primary/10 transition-colors duration-300 group">
+            <td class="p-4 flex items-center gap-4">
+              <img [src]="product.imageUrl" alt="{{product.name}}" class="h-12 w-12 rounded-lg object-cover shadow-sm">
+              <div>
+                <p class="font-semibold text-text-dark dark:text-dark-text">{{ product.name }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">{{ product.id }}</p>
+              </div>
+            </td>
+            <td class="p-4 text-gray-600 dark:text-gray-300">{{ product.category }}</td>
+            <td class="p-4 font-mono text-center text-xl font-bold"
+                [ngClass]="{
+                  'text-accent-red dark:text-dark-red': product.stock === 0, 
+                  'text-secondary dark:text-secondary': product.stock > 0
+                }">
+                {{ product.stock }}
+            </td>
+            <td class="p-4">
+              <span class="px-3 py-1 text-xs font-bold rounded-full" 
+                    [ngClass]="{
+                      'bg-accent-red/10 text-accent-red dark:bg-dark-red/10 dark:text-dark-red': product.stock === 0,
+                      'bg-secondary/10 text-secondary dark:bg-secondary/10 dark:text-secondary': product.stock > 0
+                    }">
+                {{ product.stock === 0 ? 'AGOTADO' : 'STOCK BAJO' }}
+              </span>
+            </td>
+            <td class="p-4 text-center">
+              <button class="bg-secondary text-text-dark dark:text-dark-background px-4 py-2 rounded-lg font-semibold shadow-md opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 hover:bg-yellow-500 dark:hover:bg-yellow-400">
+                Pedir Stock
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

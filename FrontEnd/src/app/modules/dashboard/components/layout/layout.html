@@ -1,0 +1,91 @@
+<div class="flex h-screen overflow-hidden font-sans 
+            bg-neutral-light text-text-dark 
+            dark:bg-dark-background dark:text-dark-text 
+            transition-colors duration-500">
+
+  <aside  
+    [ngClass]="isSidebarOpen ? 'w-64' : 'w-20'"  
+    class="flex flex-col flex-shrink-0 transition-all duration-300 ease-in-out shadow-2xl z-30
+           bg-primary text-white dark:bg-dark-primary dark:text-dark-text"> <!-- Clases Dark añadidas -->
+
+    <div class="flex items-center justify-center h-20 border-b border-primary-hover/30 dark:border-white/10"> <!-- Clase Dark añadida -->
+      <svg class="h-8 w-8 text-secondary flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">  
+        <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.474-4.474c-.039-.58-.19-1.193-.43-1.743M11.42 15.17L5.318 5.318a4.5 4.5 0 016.364 0l7.778 7.778-6.364 6.364z" />  
+      </svg>  
+      <span *ngIf="isSidebarOpen" class="ml-3 text-2xl font-bold tracking-wider animate-fade-in-fast whitespace-nowrap">FIERRO</span>  
+    </div>  
+
+    <nav class="flex-1 mt-6 px-4 space-y-3">  
+      <a *ngFor="let item of navItems"  
+        [routerLink]="item.path"  
+        routerLinkActive="bg-primary-hover text-white scale-105 shadow-lg"  
+        [routerLinkActiveOptions]="{exact: item.path === 'home'}"  
+        class="flex items-center p-3 rounded-lg transition-all duration-300 hover:bg-primary-hover hover:scale-105 hover:shadow-lg transform 
+               dark:hover:bg-dark-primary/70"> <!-- Clase Dark añadida -->
+        <svg class="h-6 w-6 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">  
+          <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="item.icon" />  
+        </svg>  
+        <span *ngIf="isSidebarOpen" class="ml-4 font-medium animate-fade-in-fast">{{ item.name }}</span>  
+      </a>  
+    </nav>  
+  </aside>  
+
+  <div class="flex flex-col flex-1 overflow-hidden">  
+
+    <header class="flex justify-between items-center p-4 backdrop-blur-lg shadow-sm z-20 transition-colors duration-500
+                   bg-white/60 border-b border-neutral-light/80 
+                   dark:bg-dark-background/60 dark:border-dark-text/10"> <!-- Clases Dark añadidas -->
+
+      <div class="flex items-center">  
+        <button (click)="toggleSidebar()" class="p-2 rounded-full hover:bg-neutral-light/50 focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 
+                         text-text-dark dark:text-dark-text dark:hover:bg-white/10 dark:focus:ring-dark-primary"> <!-- Clases Dark añadidas -->
+          <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>  
+        </button>  
+        <h1 class="text-2xl font-semibold ml-4">Sistema de Gestión</h1>  
+      </div>  
+
+      <!-- INICIO: Botón de Modo Oscuro/Claro -->
+      <div class="flex items-center space-x-4">
+        <button 
+          (click)="toggleDarkMode()" 
+          class="p-2 rounded-full transition-colors duration-300 
+                 text-text-dark hover:bg-neutral-light/50 focus:ring-primary 
+                 dark:text-dark-text dark:hover:bg-white/10 dark:focus:ring-dark-primary">
+          <!-- Ícono de Sol para Modo Oscuro (se muestra cuando NO es oscuro) -->
+          <svg *ngIf="!isDarkMode()" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.75l-1.558 1.559M21 12h-2.25m-.75 6.364l-1.559-1.558M12 18v2.25m-4.773-2.121l-1.559 1.559M3 12h2.25m.75-6.364l1.558 1.559M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <!-- Ícono de Luna para Modo Claro (se muestra cuando SÍ es oscuro) -->
+          <svg *ngIf="isDarkMode()" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25c0 5.385 4.365 9.75 9.75 9.75 2.535 0 4.905-1.009 6.697-2.757z" />
+          </svg>
+        </button>
+        <!-- FIN: Botón de Modo Oscuro/Claro -->
+
+        <div class="relative">  
+          <button (click)="toggleUserDropdown()" class="flex items-center space-x-3 group">  
+            <span class="text-right font-medium hidden sm:block">Admin</span>  
+            <img class="h-10 w-10 rounded-full object-cover border-2 border-transparent group-hover:border-secondary transition-all duration-300"  
+              src="https://i.imgur.com/gpHaB4V.png" alt="Avatar de usuario">  
+          </button>  
+
+          <div *ngIf="isUserDropdownOpen" class="absolute right-0 mt-2 w-48 rounded-xl shadow-2xl py-2 z-50 animate-scale-in
+                       bg-white dark:bg-dark-background/90 dark:border dark:border-white/10"> <!-- Clases Dark añadidas -->
+            <a href="#" class="block px-4 py-2 text-sm text-text-dark hover:bg-neutral-light transition-colors 
+                           dark:text-dark-text dark:hover:bg-dark-primary/20">Mi Perfil</a> <!-- Clases Dark añadidas -->
+            <button (click)="logout()" class="w-full text-left flex items-center px-4 py-2 text-sm text-accent-red hover:bg-accent-red/10 transition-colors 
+                            dark:text-dark-red dark:hover:bg-dark-red/10"> <!-- Clases Dark añadidas -->
+              <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>  
+              Cerrar Sesión  
+            </button>  
+          </div>  
+        </div>  
+      </div>
+    </header>  
+
+    <main class="flex-1 p-6 lg:p-8 overflow-y-auto custom-scrollbar">  
+      <router-outlet></router-outlet>  
+    </main>  
+
+  </div>  
+</div>
