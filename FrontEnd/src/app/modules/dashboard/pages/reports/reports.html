@@ -1,0 +1,167 @@
+<div class="min-h-screen bg-gradient-to-br from-neutral-light to-primary/10 dark:from-dark-background dark:to-dark-background/95 p-4 md:p-8 font-sans">
+
+  <header class="mb-8 animate-fade-in-up">
+    <div class="flex items-center justify-between">
+      <h1 class="text-4xl font-extrabold text-primary dark:text-dark-primary shadow-text-sm">
+        Reportes de Inventario Clave
+      </h1>
+      
+      <button 
+        class="bg-secondary text-text-dark dark:text-dark-background py-3 px-6 rounded-xl font-bold text-lg shadow-xl shadow-secondary/50 transform hover:scale-[1.03] transition duration-300 ease-in-out focus:outline-none focus:ring-4 ring-secondary/50 group overflow-hidden relative"
+      >
+        <span class="relative z-10 flex items-center">
+          <span class="mr-2">📄</span> Generar PDF Rápido
+        </span>
+        <span class="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-sm"></span>
+      </button>
+
+    </div>
+    <p class="mt-2 text-text-dark/70 dark:text-dark-text/70 text-lg">
+      <span class="font-bold">Vista Focalizada:</span> Métricas y Control del Inventario de Productos Críticos.
+    </p>
+  </header>
+
+  <div class="grid grid-cols-1 gap-6">
+
+    <main class="animate-fade-in-up delay-200">
+      
+      <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+        <div 
+          *ngFor="let metrica of metricas; let i = index"
+          [ngClass]="getAnimationClass(i)"
+          class="p-6 bg-white/50 dark:bg-zinc-800/50 backdrop-blur-md border border-white/30 dark:border-zinc-700/50 rounded-2xl shadow-xl hover:shadow-2xl hover:scale-[1.02] transition duration-300 ease-in-out cursor-pointer group transform focus:ring-4 ring-primary/50"
+        >
+          <div class="flex items-start justify-between">
+            <h4 class="text-sm font-semibold text-text-dark/80 dark:text-dark-text/80 uppercase">{{ metrica.titulo }}</h4>
+            <span class="text-2xl" [ngClass]="metrica.colorClass">{{ metrica.icono }}</span>
+          </div>
+          <div class="mt-4">
+            <p class="text-4xl font-extrabold text-primary-hover dark:text-primary-hover transition duration-300 group-hover:text-primary-hover">
+              {{ metrica.valor }}
+            </p>
+          </div>
+          <p class="mt-2 text-xs text-text-dark/60 dark:text-dark-text/60 border-t border-primary/10 dark:border-dark-primary/20 pt-2 group-hover:text-primary-hover dark:group-hover:text-primary-hover">
+            Análisis detallado de inventario.
+          </p>
+        </div>
+      </section>
+
+      <section *ngIf="activeTab === 'inventario'" class="animate-fade-in-up delay-500">
+        <div class="bg-white/70 dark:bg-zinc-800/70 backdrop-blur-lg border border-white/30 dark:border-zinc-700/30 rounded-2xl shadow-2xl overflow-hidden">
+          <table class="min-w-full divide-y divide-primary/20 dark:divide-dark-primary/20">
+            <thead class="bg-primary/90 dark:bg-dark-primary/90 text-white dark:text-dark-text sticky top-0">
+              <tr>
+                <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Código</th>
+                <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Producto</th>
+                <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Categoría</th>
+                <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Stock</th>
+                <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Ventas (Mes)</th>
+                <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Tendencia</th>
+                <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider">Estado</th>
+                <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider">Detalle</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-primary/10 dark:divide-dark-primary/10">
+              <tr 
+                *ngFor="let producto of productosClave; let i = index"
+                [ngClass]="getAnimationClass(i)"
+                (click)="openModal(producto)"
+                class="bg-white/70 dark:bg-zinc-900/70 hover:bg-primary/5 dark:hover:bg-dark-primary/10 transition duration-300 ease-in-out cursor-pointer group transform hover:scale-[1.005] focus-within:ring-2 ring-primary-hover"
+              >
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-dark dark:text-dark-text group-hover:text-primary dark:group-hover:text-dark-primary transition duration-300">{{ producto.codigo }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark/80 dark:text-dark-text/80 group-hover:font-semibold transition duration-300">{{ producto.nombre }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-text-dark/60 dark:text-dark-text/60">{{ producto.categoria }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono dark:text-dark-text" [ngClass]="{'text-accent-red dark:text-dark-red font-bold': producto.stock <= 5}">{{ producto.stock | number:'1.0-0' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-text-dark dark:text-dark-text">{{ producto.ventasMes | number:'1.0-0' }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-center">
+                    <span [ngClass]="getTendenciaColor(producto.tendencia)" class="text-lg font-bold">
+                        {{ producto.tendencia === 'up' ? '▲' : (producto.tendencia === 'down' ? '▼' : '▬') }}
+                    </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-center">
+                  <span 
+                    [ngClass]="getStockBadgeClass(producto.estado)"
+                    class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border transform group-hover:scale-105 transition duration-300"
+                  >
+                    {{ producto.estado }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-center">
+                  <button class="text-primary-hover dark:text-primary-hover hover:text-secondary p-1 rounded-full hover:bg-primary/10 dark:hover:bg-dark-primary/10 transition duration-300 transform hover:scale-125 focus:outline-none focus:ring-2 ring-primary-hover">
+                    👁️
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-4 flex justify-end items-center space-x-2 animate-fade-in-up delay-700">
+          <span class="text-sm text-text-dark/70 dark:text-dark-text/70">Página 1 de 5</span>
+          <button class="p-2 text-primary-hover dark:text-primary-hover hover:bg-primary/10 dark:hover:bg-dark-primary/10 rounded-full transition duration-300 transform hover:scale-110 focus:outline-none focus:ring-2 ring-primary-hover">
+            <span class="font-bold">→</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div 
+    *ngIf="isModalOpen" 
+    (click)="closeModal()"
+    class="fixed inset-0 bg-text-dark/30 dark:bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in"
+  >
+    <div 
+      (click)="$event.stopPropagation()"
+      class="bg-white/90 dark:bg-dark-background/90 backdrop-blur-xl border border-white/40 dark:border-zinc-700/40 rounded-3xl shadow-3xl p-8 w-11/12 md:w-1/2 lg:w-1/3 transform transition-all duration-300 ease-out animate-scale-in"
+    >
+      <div class="flex justify-between items-start border-b pb-3 border-primary/20 dark:border-dark-primary/20 mb-4">
+        <h2 class="text-2xl font-bold text-primary dark:text-dark-primary">{{ selectedProduct?.nombre }}</h2>
+        <button (click)="closeModal()" class="text-text-dark/70 dark:text-dark-text/70 hover:text-accent-red dark:hover:text-dark-red text-2xl p-1 rounded-full transition duration-300 transform hover:rotate-90">
+          &times;
+        </button>
+      </div>
+      <div class="space-y-3 text-text-dark dark:text-dark-text">
+        <p><strong>Código:</strong> <span class="font-mono text-primary-hover">{{ selectedProduct?.codigo }}</span></p>
+        <p><strong>Categoría:</strong> <span class="font-medium">{{ selectedProduct?.categoria }}</span></p>
+        <p><strong>Proveedor:</strong> <span class="font-medium">{{ selectedProduct?.proveedor }}</span></p>
+        <p>
+          <strong>Estado:</strong> 
+          <span [ngClass]="getStockBadgeClass(selectedProduct?.estado!)" class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border">
+            {{ selectedProduct?.estado }}
+          </span>
+        </p>
+        <p>
+          <strong>Stock Actual:</strong> 
+          <span 
+            class="text-lg font-extrabold" 
+            [ngClass]="{'text-accent-red dark:text-dark-red': selectedProduct?.stock! <= 5, 'text-accent-green dark:text-dark-green': selectedProduct?.stock! > 5}"
+          >
+            {{ selectedProduct?.stock | number:'1.0-0' }} Unidades 
+          </span>
+        </p>
+        <p>
+            <strong>Ventas Mes:</strong> 
+            <span class="text-lg font-extrabold text-primary-hover">
+                {{ selectedProduct?.ventasMes | number:'1.0-0' }} Unidades
+            </span>
+        </p>
+        <p>
+            <strong>Precio Unitario:</strong> 
+            <span class="text-xl font-bold text-accent-green dark:text-dark-green">
+                ${{ (selectedProduct?.precio || 0).toFixed(2) }}
+            </span>
+        </p>
+        <div class="pt-4 border-t border-primary/10 dark:border-dark-primary/10 mt-4">
+          <button 
+            (click)="closeModal()" 
+            class="w-full bg-primary dark:bg-dark-primary text-white dark:text-dark-text py-3 rounded-xl font-semibold shadow-lg shadow-primary/50 dark:shadow-dark-primary/50 transform hover:scale-[0.98] transition duration-300 ease-in-out focus:outline-none focus:ring-4 ring-primary/50"
+          >
+            Cerrar Detalle
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

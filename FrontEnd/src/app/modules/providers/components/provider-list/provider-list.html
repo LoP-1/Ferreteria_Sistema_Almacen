@@ -1,0 +1,33 @@
+<div class="container mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Gestión de Proveedores</h1>
+    <a routerLink="new" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
+      Añadir Proveedor
+    </a>
+  </div>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <table class="min-w-full leading-normal">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Nombre</th>
+          <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Persona de Contacto</th>
+          <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Email</th>
+          <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Teléfono</th>
+          <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wider">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hover:bg-gray-100">
+          <td class="px-5 py-4 border-b border-gray-200 text-sm">Aceros Arequipa</td>
+          <td class="px-5 py-4 border-b border-gray-200 text-sm">Carlos Rivera</td>
+          <td class="px-5 py-4 border-b border-gray-200 text-sm">ventas@acerosarequipa.com</td>
+          <td class="px-5 py-4 border-b border-gray-200 text-sm">987 654 321</td>
+          <td class="px-5 py-4 border-b border-gray-200 text-sm">
+            <a routerLink="edit/1" class="text-indigo-600 hover:text-indigo-900">Editar</a>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+</div>

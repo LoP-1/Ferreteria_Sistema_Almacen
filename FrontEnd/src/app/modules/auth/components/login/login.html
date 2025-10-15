@@ -1,64 +1,141 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-  <div class="w-full max-w-md bg-white rounded-xl shadow-2xl p-8 space-y-6 transform transition duration-500 hover:shadow-3xl">
-    
+<!-- Contenedor principal con imagen de fondo temática -->
+<div class="relative min-h-screen flex items-center justify-center p-4 bg-gray-900 overflow-hidden">
+
+  <!-- Imagen de fondo con superposición y filtro de color para mayor integración -->
+  <div class="absolute inset-0 z-0">
+    <img src="https://images.unsplash.com/photo-1581152399933-9e3276a2588b?q=80&w=2070&auto=format&fit=crop"
+      alt="Fondo de herramientas de ferretería" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-primary/40 dark:bg-black/70 backdrop-blur-sm"></div>
+  </div>
+
+  <!-- Tarjeta de Login (Contenido principal) con animación de entrada -->
+  <div
+    class="relative z-10 w-full max-w-md bg-neutral-light/95 dark:bg-dark-surface/90 backdrop-blur-xl rounded-2xl shadow-2xl p-8 space-y-6 transform transition-all duration-500 hover:shadow-3xl border border-white/20 animate-fade-in">
+
+    <!-- Logo y Título -->
     <div class="text-center">
-      <h2 class="text-3xl font-extrabold text-gray-900">
-        Inicia Sesión 🔑
+      <!-- Icono temático de llave inglesa, más acorde a la temática -->
+      <div
+        class="mx-auto h-16 w-16 text-secondary bg-primary dark:bg-dark-primary rounded-full flex items-center justify-center shadow-lg mb-4 transform hover:scale-110 transition-transform duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-white" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.783-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+        </svg>
+      </div>
+      <h2 class="text-3xl font-extrabold text-text-dark dark:text-dark-text">
+        Portal Ferretero
       </h2>
-      <p class="mt-2 text-sm text-gray-600">
-        Accede a tu cuenta
+      <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        Accede a tu cuenta para gestionar tus proyectos.
       </p>
     </div>
 
+    <!-- Formulario vinculado a Angular -->
     <form [formGroup]="loginForm" (ngSubmit)="login()" class="space-y-6">
-      
-      <div>
-        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-        <input
-          type="email"
-          class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
-          id="email"
-          placeholder="tu.correo@ejemplo.com"
-          formControlName="email"
-          [ngClass]="{ 'border-red-500 focus:border-red-500 focus:ring-red-500': formControls['email'].touched && formControls['email'].errors }">
-        
-        <div *ngIf="formControls['email'].touched && formControls['email'].errors" class="mt-2 text-sm text-red-600">
+
+      <!-- Campo de Correo Electrónico -->
+      <div class="space-y-2">
+        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Usuario / Correo</label>
+        <div class="relative group">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none transition-colors duration-300 group-focus-within:text-primary dark:group-focus-within:text-dark-primary">
+            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+              fill="currentColor">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+            </svg>
+          </span>
+          <input type="email" id="email" placeholder="tu-correo@empresa.com" formControlName="email"
+            class="appearance-none block w-full pl-10 pr-3 py-3 border placeholder-gray-500 text-text-dark dark:text-dark-text bg-white/50 dark:bg-dark-background/50 rounded-lg sm:text-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2"
+            [ngClass]="{
+                        'border-gray-300 dark:border-gray-600 focus:ring-primary dark:focus:ring-dark-primary focus:border-transparent': !formControls['email'].errors || !formControls['email'].touched,
+                        'border-accent-red dark:border-dark-red focus:ring-accent-red dark:focus:ring-dark-red focus:border-transparent': formControls['email'].touched && formControls['email'].errors
+                      }">
+        </div>
+        <!-- Mensajes de Error de Angular -->
+        <div *ngIf="formControls['email'].touched && formControls['email'].errors"
+          class="mt-2 text-sm text-accent-red dark:text-dark-red">
           <div *ngIf="formControls['email'].errors['required']">El correo es obligatorio.</div>
           <div *ngIf="formControls['email'].errors['email']">El formato del correo no es válido.</div>
         </div>
       </div>
-      
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-        <input
-          type="password"
-          class="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
-          id="password"
-          placeholder="********"
-          formControlName="password"
-          [ngClass]="{ 'border-red-500 focus:border-red-500 focus:ring-red-500': formControls['password'].touched && formControls['password'].errors }">
 
-        <div *ngIf="formControls['password'].touched && formControls['password'].errors" class="mt-2 text-sm text-red-600">
+      <!-- Campo de Contraseña -->
+      <div class="space-y-2">
+        <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Contraseña</label>
+        <div class="relative group">
+          <span
+            class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none transition-colors duration-300 group-focus-within:text-primary dark:group-focus-within:text-dark-primary">
+            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+              fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                clip-rule="evenodd" />
+            </svg>
+          </span>
+          <input [type]="passwordVisible ? 'text' : 'password'" id="password" placeholder="••••••••"
+            formControlName="password"
+            class="appearance-none block w-full pl-10 pr-10 py-3 border placeholder-gray-500 text-text-dark dark:text-dark-text bg-white/50 dark:bg-dark-background/50 rounded-lg sm:text-sm transition duration-150 ease-in-out focus:outline-none focus:ring-2"
+            [ngClass]="{
+                        'border-gray-300 dark:border-gray-600 focus:ring-primary dark:focus:ring-dark-primary focus:border-transparent': !formControls['password'].errors || !formControls['password'].touched,
+                        'border-accent-red dark:border-dark-red focus:ring-accent-red dark:focus:ring-dark-red focus:border-transparent': formControls['password'].touched && formControls['password'].errors
+                      }">
+          <!-- Botón para mostrar/ocultar contraseña -->
+          <button type="button" (click)="togglePasswordVisibility()"
+            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-primary dark:hover:text-dark-primary focus:outline-none">
+            <svg *ngIf="!passwordVisible" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg *ngIf="passwordVisible" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+            </svg>
+          </button>
+        </div>
+        <!-- Mensajes de Error de Angular -->
+        <div *ngIf="formControls['password'].touched && formControls['password'].errors"
+          class="mt-2 text-sm text-accent-red dark:text-dark-red">
           <div *ngIf="formControls['password'].errors['required']">La contraseña es obligatoria.</div>
         </div>
       </div>
-      
+
+      <!-- Opciones Adicionales -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input id="remember-me" formControlName="rememberMe" type="checkbox"
+            class="h-4 w-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-dark-primary dark:ring-offset-dark-surface dark:bg-gray-700 dark:border-gray-600">
+          <label for="remember-me" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">Recordar Sesión</label>
+        </div>
+        <div class="text-sm">
+          <a href="#"
+            class="font-medium text-primary dark:text-dark-primary hover:text-primary-hover dark:hover:text-dark-primary-hover transition-colors duration-200">
+            ¿Necesitas ayuda?
+          </a>
+        </div>
+      </div>
+
+      <!-- Botón de Envío con estado de carga -->
       <div>
-        <button 
-          type="submit" 
-          class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-150 ease-in-out"
-          [disabled]="loginForm.invalid">
-          Ingresar
+        <button type="submit" [disabled]="loginForm.invalid || isLoading"
+          class="group relative w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent text-base font-semibold rounded-lg text-text-dark bg-secondary hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary dark:focus:ring-offset-dark-surface disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-150 ease-in-out uppercase tracking-wider shadow-lg active:scale-95">
+          <span *ngIf="!isLoading">Ingresar</span>
+          <!-- Spinner de carga -->
+          <div *ngIf="isLoading" class="flex items-center justify-center gap-2">
+            <svg class="animate-spin h-5 w-5 text-text-dark" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            <span>Validando...</span>
+          </div>
         </button>
       </div>
-      
     </form>
-    
-    <div class="text-center text-sm">
-      <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-        ¿Olvidaste tu contraseña?
-      </a>
-    </div>
-
   </div>
 </div>
