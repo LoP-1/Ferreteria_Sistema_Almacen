@@ -6,6 +6,8 @@ import quantify.sistema.almacenes.models.Empleados;
 import quantify.sistema.almacenes.record.auth.UsuarioDTO;
 import quantify.sistema.almacenes.repository.EmpleadosRepository;
 
+import java.util.List;
+
 @Service
 public class AuthService {
 
@@ -34,4 +36,8 @@ public class AuthService {
         return "ok";
     }
 
+    //encontrar todos los usuarios
+    public List<Empleados> obtenerUsuarios(){
+        return empleadosRepository.findAll();
+    }
 }

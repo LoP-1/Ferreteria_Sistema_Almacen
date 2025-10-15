@@ -1,10 +1,7 @@
 package quantify.sistema.almacenes.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import quantify.sistema.almacenes.models.Empleados;
 import quantify.sistema.almacenes.record.auth.UsuarioDTO;
 import quantify.sistema.almacenes.service.AuthService;
@@ -28,4 +25,9 @@ public class AuthController {
         return authService.login(usuario);
     }
 
+    //obtener todos los usuarios
+    @GetMapping("/usuarios")
+    public Iterable<Empleados> obtenerUsuarios(){
+        return authService.obtenerUsuarios();
+    }
 }
