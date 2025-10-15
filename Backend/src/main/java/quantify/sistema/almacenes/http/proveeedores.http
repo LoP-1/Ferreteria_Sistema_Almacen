@@ -1,0 +1,11 @@
+PUT    http://localhost:8080/proveedores/agregar
+Content-Type: application/json
+
+{
+  "nombreEmpresa": "Acme S.A.C. 2025",
+  "ruc": "20481234567",
+  "contactoNombre": "Juan Pérez",
+  "telefono": "987654321",
+  "email": "contactonuevo@acme.com",
+  "descripcion": "Proveedor especializado en insumos explosivos."
+}

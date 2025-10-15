@@ -1,0 +1,10 @@
+POST    http://localhost:8080/auth/registrar
+Content-Type: application/json
+
+{
+  "nombres": "Juan Carlos",
+  "apellidos": "Pérez Gutiérrez",
+  "dni": "87654321",
+  "email": "juan.carlos@example.com",
+  "contraseña": "querico"
+}

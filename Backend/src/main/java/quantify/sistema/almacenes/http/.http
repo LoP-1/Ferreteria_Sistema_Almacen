@@ -1,0 +1,13 @@
+POST http://localhost:8080/productos/stock
+Content-Type: application/json
+
+{
+  "codigoSku": "SKU123",
+  "nombre": "Antimonitor\"",
+  "descripcion": "Descripcion fina",
+  "precioCompra": 199.99,
+  "stockInicial": 50,
+  "stockMinimo": 100,
+  "categoria": "Electrónica",
+  "rucProveedor": "20100070970"
+}
