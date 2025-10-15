@@ -1,0 +1,28 @@
+/*
+ * Este CSS usa el selector '.login-container' definido en el HTML
+ * para centrar la tarjeta de login en toda la altura de la pantalla.
+ */
+
+.login-container {
+    /* Define la altura mínima para ser el 100% del viewport */
+    min-height: 100vh;
+    /* Aplica un color de fondo suave */
+    background-color: #f8f9fa; /* Color gris claro de Bootstrap */
+    
+    /* Asegura que el contenedor tome el ancho completo */
+    width: 100%;
+}
+
+.login-card {
+    /* Define un ancho máximo para la tarjeta en dispositivos grandes */
+    max-width: 400px;
+    /* Añade una sombra sutil para darle profundidad */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    /* Asegura esquinas redondeadas */
+    border-radius: 1rem;
+}
+
+/* Estilos de enfoque para el botón */
+.btn-primary:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.5);
+}
