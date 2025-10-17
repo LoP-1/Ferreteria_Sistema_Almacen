@@ -30,4 +30,6 @@ public class AuthController {
     public Iterable<Empleados> obtenerUsuarios(){
         return authService.obtenerUsuarios();
     }
+
+
 }

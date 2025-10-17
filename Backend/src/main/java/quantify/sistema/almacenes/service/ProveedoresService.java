@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import quantify.sistema.almacenes.models.Proveedores;
 import quantify.sistema.almacenes.repository.ProveedoresRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,6 +44,10 @@ public class ProveedoresService {
         proveedoresRepository.save(existente);
 
         return "Proveedor actualizado exitosamente";
+    }
+
+    public List<Proveedores> listarProveedores(){
+        return proveedoresRepository.findAll();
     }
 
 }
