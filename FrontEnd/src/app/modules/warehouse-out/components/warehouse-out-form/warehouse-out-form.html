@@ -1,1 +1,146 @@
-<p>warehouse-out-form works!</p>
+<div class="font-sans bg-neutral-light dark:bg-dark-background text-text-dark dark:text-dark-text min-h-screen p-4 sm:p-6 lg:p-8 transition-colors duration-300">
+  <main class="max-w-7xl mx-auto">
+
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-accent-green dark:text-dark-green">Registro de Salida de Almacén</h1>
+        <p class="text-md text-text-dark/70 dark:text-dark-text/70 mt-1">Crea una nueva orden de despacho para un cliente.</p>
+      </div>
+      <button class="flex items-center gap-2 mt-4 sm:mt-0 bg-primary dark:bg-dark-primary text-white font-bold py-3 px-6 rounded-lg shadow-lg shadow-primary/30 dark:shadow-dark-primary/20 hover:bg-primary-hover hover:scale-105 hover:shadow-xl transform transition-all duration-300 custom-ease">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+        <span>Confirmar Despacho</span>
+      </button>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+      <div class="lg:col-span-1 flex flex-col gap-8 animate-fade-in">
+        <div class="bg-white dark:bg-dark-background/50 border border-secondary/50 dark:border-dark-green/20 rounded-xl shadow-md p-6">
+          <h2 class="font-bold text-lg mb-4 text-accent-green dark:text-dark-green">Cliente y Destino</h2>
+          <div class="relative">
+            <button (click)="toggleCustomerDropdown()" class="w-full flex items-center justify-between bg-neutral-light dark:bg-dark-background border border-secondary/80 dark:border-dark-green/30 rounded-lg p-3 transition-all duration-300 custom-ease hover:border-primary dark:hover:border-dark-primary focus:ring-2 focus:ring-primary/50">
+              <div *ngIf="selectedCustomer; else noCustomer" class="flex items-center gap-3">
+                <img [src]="selectedCustomer.avatarUrl" alt="Avatar" class="h-10 w-10 rounded-full object-cover">
+                <div>
+                  <p class="font-semibold text-sm text-left">{{ selectedCustomer.name }}</p>
+                  <p class="text-xs text-left text-text-dark/60 dark:text-dark-text/60">RUC: {{ selectedCustomer.ruc }}</p>
+                </div>
+              </div>
+              <ng-template #noCustomer><span class="text-text-dark/60 dark:text-dark-text/60">Seleccionar un cliente...</span></ng-template>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300" [ngClass]="{'rotate-180': isCustomerDropdownOpen}" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+            </button>
+            <div *ngIf="isCustomerDropdownOpen" class="absolute z-10 mt-2 w-full bg-white dark:bg-dark-background/80 backdrop-blur-sm border dark:border-dark-green/20 rounded-lg shadow-2xl animate-scale-in origin-top">
+              <ul>
+                <li *ngFor="let customer of customers" (click)="selectCustomer(customer)" class="flex items-center gap-3 p-3 cursor-pointer hover:bg-secondary/30 dark:hover:bg-dark-green/20 transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg">
+                  <img [src]="customer.avatarUrl" alt="Avatar" class="h-8 w-8 rounded-full object-cover">
+                  <div>
+                     <p class="font-semibold text-sm">{{ customer.name }}</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-4">
+            <label for="notes" class="block text-sm font-medium mb-2">Observaciones</label>
+            <textarea id="notes" rows="3" class="w-full bg-neutral-light dark:bg-dark-background border border-secondary/80 dark:border-dark-green/30 rounded-lg p-2 focus:ring-2 focus:ring-primary/50 focus:border-primary dark:focus:border-dark-primary transition-colors duration-300" placeholder="Ej: Entregar en puerta principal..."></textarea>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white dark:bg-dark-background/50 border border-secondary/50 dark:border-dark-green/20 rounded-xl shadow-md p-4 flex flex-col items-center justify-center text-center hover:scale-105 hover:shadow-xl transition-all duration-300 custom-ease">
+                <p class="text-4xl font-bold text-primary dark:text-dark-primary">{{ totalItems }}</p>
+                <p class="text-sm font-medium text-text-dark/70 dark:text-dark-text/70 mt-1">Productos Totales</p>
+            </div>
+            <div class="bg-white dark:bg-dark-background/50 border border-secondary/50 dark:border-dark-green/20 rounded-xl shadow-md p-4 flex flex-col items-center justify-center text-center hover:scale-105 hover:shadow-xl transition-all duration-300 custom-ease">
+                <p class="text-4xl font-bold text-primary dark:text-dark-primary">S/ {{ totalValue | number:'1.2-2' }}</p>
+                <p class="text-sm font-medium text-text-dark/70 dark:text-dark-text/70 mt-1">Valor Total</p>
+            </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 bg-white dark:bg-dark-background/50 border border-secondary/50 dark:border-dark-green/20 rounded-xl shadow-lg p-6 animate-slide-in-up">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="font-bold text-lg text-accent-green dark:text-dark-green">Lista de Productos a Despachar</h2>
+          <button (click)="toggleProductModal()" class="flex items-center gap-2 bg-accent-green dark:bg-dark-green text-white font-bold py-2 px-4 rounded-lg shadow-lg shadow-accent-green/30 dark:shadow-dark-green/20 hover:scale-105 transform transition-all duration-300 custom-ease">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
+            <span>Agregar Producto</span>
+          </button>
+        </div>
+        <div class="overflow-y-auto max-h-[60vh]">
+          <div *ngIf="cart.length > 0; else emptyCart" class="flex flex-col gap-3 pr-2">
+            <div *ngFor="let item of cart; trackBy: trackByProductId" class="flex items-center gap-4 p-3 bg-neutral-light/50 dark:bg-dark-background rounded-lg hover:bg-secondary/30 dark:hover:bg-dark-green/20 hover:shadow-md hover:-translate-y-1 transition-all duration-300 custom-ease animate-fade-in">
+              <div class="flex-grow">
+                <p class="font-semibold">{{ item.product.name }}</p>
+                <p class="text-xs text-text-dark/60 dark:text-dark-text/60">{{ item.product.id }} | S/ {{ item.product.price | number:'1.2-2' }} c/u</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button (click)="updateQuantity(item, -1)" class="w-7 h-7 rounded-full bg-secondary/50 dark:bg-dark-green/30 hover:bg-accent-red hover:text-white dark:hover:bg-dark-red transition-colors">-</button>
+                <span class="w-10 text-center font-semibold">{{ item.quantity }}</span>
+                <button (click)="updateQuantity(item, 1)" class="w-7 h-7 rounded-full bg-secondary/50 dark:bg-dark-green/30 hover:bg-accent-green hover:text-white dark:hover:bg-dark-green transition-colors">+</button>
+              </div>
+              <p class="w-24 text-right font-bold text-primary dark:text-dark-primary">S/ {{ (item.quantity * item.product.price) | number:'1.2-2' }}</p>
+              <button (click)="removeFromCart(item.product.id)" class="text-accent-red/70 dark:text-dark-red/70 hover:text-accent-red dark:hover:text-dark-red hover:scale-125 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+              </button>
+            </div>
+          </div>
+          <ng-template #emptyCart>
+            <div class="text-center py-16 border-2 border-dashed border-secondary dark:border-dark-green/30 rounded-lg">
+              <p class="text-text-dark/60 dark:text-dark-text/60">Aún no has agregado productos.</p>
+              <p class="text-sm text-text-dark/40 dark:text-dark-text/40">Haz clic en "Agregar Producto" para comenzar.</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div *ngIf="isProductModalOpen" class="fixed inset-0 z-50 flex items-center justify-center animate-fade-in-fast">
+    <div (click)="toggleProductModal()" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    
+    <div class="relative w-full max-w-4xl bg-neutral-light/80 dark:bg-dark-background/80 backdrop-blur-xl border border-white/20 dark:border-black/20 rounded-2xl shadow-2xl m-4 animate-scale-in">
+      <div class="flex justify-between items-center p-6 border-b border-secondary/50 dark:border-dark-green/20">
+        <h3 class="text-xl font-bold text-accent-green dark:text-dark-green">Seleccionar Productos</h3>
+        <button (click)="toggleProductModal()" class="text-text-dark/60 dark:text-dark-text/60 hover:text-accent-red dark:hover:text-dark-red hover:rotate-90 transition-transform duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <div class="p-6 max-h-[70vh] overflow-y-auto">
+        <table class="w-full text-left table-auto">
+          <thead>
+            <tr class="border-b border-secondary dark:border-dark-green/30">
+              <th class="p-3">Producto</th>
+              <th class="p-3">Categoría</th>
+              <th class="p-3 text-center">Stock</th>
+              <th class="p-3 text-right">Precio</th>
+              <th class="p-3 text-center">Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of allProducts" class="border-b border-secondary/40 dark:border-dark-green/10 hover:bg-secondary/30 dark:hover:bg-dark-green/20 transition-colors duration-200 custom-ease" [ngClass]="{'opacity-50 cursor-not-allowed': product.stock === 0}">
+              <td class="p-4 font-semibold">{{ product.name }}<br><span class="text-xs font-normal text-text-dark/50 dark:text-dark-text/50">{{ product.id }}</span></td>
+              <td class="p-4">{{ product.category }}</td>
+              <td class="p-4 text-center">
+                <span class="px-3 py-1 text-xs font-bold rounded-full"
+                  [ngClass]="{
+                    'bg-accent-green/20 text-accent-green dark:bg-dark-green/20 dark:text-dark-green': getStockStatus(product.stock) === 'ok',
+                    'bg-secondary/80 text-text-dark/80 dark:bg-secondary/50 dark:text-text-dark': getStockStatus(product.stock) === 'low',
+                    'bg-accent-red/20 text-accent-red dark:bg-dark-red/20 dark:text-dark-red': getStockStatus(product.stock) === 'out'
+                  }">
+                  {{ product.stock > 0 ? product.stock : 'Agotado' }}
+                </span>
+              </td>
+              <td class="p-4 text-right font-mono">S/ {{ product.price | number:'1.2-2' }}</td>
+              <td class="p-4 text-center">
+                <button (click)="addProductToCart(product)" [disabled]="product.stock === 0" class="w-8 h-8 flex items-center justify-center rounded-full bg-primary/20 text-primary dark:bg-dark-primary/20 dark:text-dark-primary hover:bg-primary hover:text-white disabled:bg-neutral-light/50 disabled:text-text-dark/50 dark:disabled:bg-dark-background/10 dark:disabled:text-dark-text/30 disabled:cursor-not-allowed transition-all duration-300 hover:scale-125">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.993.883L4 8v10a2 2 0 002 2h8a2 2 0 002-2V8a1 1 0 00-1-1h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4z" /></svg>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

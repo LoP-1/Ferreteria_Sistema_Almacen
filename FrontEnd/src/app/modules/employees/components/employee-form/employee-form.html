@@ -1,1 +1,159 @@
-<p>employee-form works!</p>
+<div
+    class="min-h-screen w-full bg-neutral-light dark:bg-dark-background font-sans flex items-center justify-center p-4 overflow-hidden relative transition-colors duration-500">
+
+    <div
+        class="absolute top-0 left-0 w-72 h-72 bg-secondary/30 dark:bg-secondary/20 rounded-full filter blur-3xl opacity-50 animate-blob">
+    </div>
+    <div
+        class="absolute top-0 right-5 w-96 h-96 bg-primary/30 dark:bg-primary/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-2000">
+    </div>
+    <div
+        class="absolute bottom-0 left-20 w-80 h-80 bg-accent-green/30 dark:bg-accent-green/20 rounded-full filter blur-3xl opacity-50 animate-blob animation-delay-4000">
+    </div>
+
+    <div class="w-full max-w-3xl animate-fade-in-up z-10">
+        <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()" novalidate class="form-container">
+
+            <div *ngIf="notification.show" class="notification" [ngClass]="{
+              'notification-success': notification.type === 'success',
+              'notification-error': notification.type === 'error'
+            }">
+                <div class="flex items-center">
+                    <svg *ngIf="notification.type === 'success'" class="h-6 w-6 mr-3 flex-shrink-0"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <svg *ngIf="notification.type === 'error'" class="h-6 w-6 mr-3 flex-shrink-0"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                    <span>{{ notification.message }}</span>
+                </div>
+                <button type="button" (click)="hideNotification()" class="ml-4 -mr-1 p-1"><svg class="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg></button>
+            </div>
+
+            <div class="text-center mb-10">
+                <h1 class="text-4xl font-bold tracking-tight">
+                    <span class="form-header-gradient">Crear Nuevo Perfil</span>
+                </h1>
+                <p class="text-text-dark/70 dark:text-dark-text/70 mt-3">Completa los datos para registrar un nuevo
+                    miembro del equipo.</p>
+            </div>
+
+            <h2 class="form-section-header animate-form-field" style="--delay: 100ms;">Datos Personales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="form-field-wrapper md:col-span-2 animate-form-field" style="--delay: 200ms;">
+                    <div class="relative group">
+                        <span class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                    clip-rule="evenodd" />
+                            </svg></span>
+                        <input type="text" id="name" formControlName="name" class="form-input-field peer"
+                            placeholder=" ">
+                        <label for="name" class="form-label">Nombre Completo</label>
+                    </div>
+                    <div *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched"
+                        class="form-error-message">
+                        El nombre completo es requerido.
+                    </div>
+                </div>
+
+                <div class="form-field-wrapper animate-form-field" style="--delay: 300ms;">
+                    <div class="relative group">
+                        <span class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.095a1.23 1.23 0 00.41-1.412A9.992 9.992 0 0010 12c-2.31 0-4.438.784-6.131 2.095z" />
+                            </svg></span>
+                        <input type="text" id="dni" formControlName="dni" class="form-input-field peer" placeholder=" ">
+                        <label for="dni" class="form-label">DNI</label>
+                    </div>
+                    <div *ngIf="employeeForm.get('dni')?.invalid && employeeForm.get('dni')?.touched"
+                        class="form-error-message">
+                        El DNI debe tener 8 dígitos.
+                    </div>
+                </div>
+
+                <div class="form-field-wrapper animate-form-field" style="--delay: 400ms;">
+                    <div class="relative group">
+                        <span class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
+                                    clip-rule="evenodd" />
+                            </svg></span>
+                        <input type="password" id="password" formControlName="password" class="form-input-field peer"
+                            placeholder=" ">
+                        <label for="password" class="form-label">Contraseña</label>
+                    </div>
+                    <div *ngIf="employeeForm.get('password')?.invalid && employeeForm.get('password')?.touched"
+                        class="form-error-message">
+                        Mínimo 6 caracteres.
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="form-section-header animate-form-field" style="--delay: 500ms;">Información Laboral</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                <div class="form-field-wrapper animate-form-field" style="--delay: 600ms;">
+                    <div class="relative group">
+                        <span class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path
+                                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3.5a1 1 0 00.002 1.84L5.5 8.094a1 1 0 00.902 0l1.09- .545a1 1 0 01.902 0l1.09.545a1 1 0 00.902 0l1.09-.545a1 1 0 01.902 0l1.09.545a1 1 0 00.902 0l2.106-1.052a1 1 0 00.002-1.84l-7-3.5z" />
+                                <path d="M10 11.655L2.5 8.094V14.5a1 1 0 001 1h13a1 1 0 001-1V8.094L10 11.655z" />
+                            </svg></span>
+                        <input type="text" id="position" formControlName="position" class="form-input-field peer"
+                            placeholder=" ">
+                        <label for="position" class="form-label">Cargo</label>
+                    </div>
+                    <div *ngIf="employeeForm.get('position')?.invalid && employeeForm.get('position')?.touched"
+                        class="form-error-message">
+                        El cargo es requerido.
+                    </div>
+                </div>
+
+                <div class="form-field-wrapper animate-form-field" style="--delay: 700ms;">
+                    <div class="relative group">
+                        <span class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg></span>
+                        <input type="email" id="email" formControlName="email" class="form-input-field peer"
+                            placeholder=" ">
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                    </div>
+                    <div *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched"
+                        class="form-error-message">
+                        Ingrese un correo válido.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions-container animate-form-field" style="--delay: 800ms;">
+                <button type="submit" [disabled]="isSubmitting || employeeForm.invalid" class="btn-primary">
+                    <svg *ngIf="isSubmitting" class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                    <span>{{ isSubmitting ? 'Guardando...' : 'Guardar Empleado' }}</span>
+                </button>
+                <button type="button" (click)="goBack()" class="btn-secondary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>

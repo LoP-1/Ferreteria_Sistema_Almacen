@@ -1,83 +1,65 @@
-/*
-  Este archivo define las animaciones de entrada personalizadas.
-  Se aplican mediante clases en el archivo .html.
-  La variable `--delay` permite escalonar la aparición de los elementos.
-*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+@layer base {
+  /* Animaciones de entrada */
+  @keyframes fade-in-down {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-}
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  .animate-fade-in-down {
+    animation: fade-in-down 0.5s ease-out forwards;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
   }
 }
 
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
+@layer components {
+  /* Estilos para las tarjetas de estadísticas */
+  .stat-card {
+    @apply bg-white dark:bg-dark-card p-5 rounded-2xl shadow-sm border border-primary/10 dark:border-dark-border transition-all duration-300 hover:shadow-lg hover:border-primary/20 dark:hover:border-primary/30 hover:-translate-y-1;
   }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  .stat-title {
+    @apply text-sm font-semibold text-text-dark/60 dark:text-dark-text/60;
   }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
+  .stat-value {
+    @apply text-3xl font-bold mt-1;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+
+  /* Estilo para las filas de la tabla de productos */
+  .product-row {
+    @apply flex flex-wrap items-center hover:bg-primary/5 dark:hover:bg-dark-primary/10 transition-colors duration-200 animate-fade-in-up;
   }
-}
 
-/* Clases de utilidad para aplicar las animaciones */
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-in-out forwards;
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-in-out forwards;
-  animation-delay: var(--delay, 0s);
-  opacity: 0; /* Empieza invisible */
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.5s ease-out forwards;
-  animation-delay: var(--delay, 0s);
-  opacity: 0; /* Empieza invisible */
+  /* Botones de acción genéricos (ver, editar) */
+  .action-button {
+    @apply p-2 rounded-full text-text-dark/60 dark:text-dark-text/60 hover:bg-primary/10 dark:hover:bg-dark-primary/20 hover:text-primary dark:hover:text-dark-primary transition-all duration-200;
+  }
+  
+  /* Estilos para los items de detalle en el modal */
+  .detail-item {
+    @apply flex justify-between items-center bg-neutral-light/70 dark:bg-dark-field p-3 rounded-lg;
+  }
+  .detail-label {
+    @apply text-sm font-semibold text-text-dark/60 dark:text-dark-text/60;
+  }
 }

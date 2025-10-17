@@ -17,7 +17,7 @@ export class Auth {
   constructor(private http: HttpClient) {}
 
   login(usuario: UsuarioDTO): Observable<string> {
-    return this.http.post<string>(this.apiUrl, usuario);
+    return this.http.post(this.apiUrl, usuario, { responseType: 'text' });
   }
   
 }

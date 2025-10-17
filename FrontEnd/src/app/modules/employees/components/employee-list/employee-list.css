@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definición de animaciones de entrada */
+@layer base {
+  @keyframes fade-in-down {
+    from {
+      opacity: 0;
+      transform: translateY(-1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-down {
+    animation: fade-in-down 0.5s ease-out forwards;
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s ease-out forwards;
+  }
+}
+
+/* Clases de componentes personalizadas */
+@layer components {
+  /* Estilo para cada fila de la lista de empleados */
+  .employee-row {
+    @apply flex flex-wrap items-center gap-y-3 gap-x-6 p-4 bg-white dark:bg-dark-card rounded-xl shadow-sm border border-transparent hover:border-primary/50 dark:hover:border-dark-primary/50 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 animate-fade-in-up;
+  }
+
+  /* Estilo para los botones de acción que aparecen en hover */
+  .action-button {
+    @apply p-2 rounded-full text-text-dark/60 dark:text-dark-text/60 hover:bg-primary/10 dark:hover:bg-dark-primary/20 hover:text-primary dark:hover:text-dark-primary transition-colors duration-200;
+  }
+
+  /* Estilo para los items de detalle dentro del modal */
+  .detail-item {
+    @apply flex justify-between items-center text-sm;
+  }
+  .detail-label {
+    @apply font-semibold text-text-dark/60 dark:text-dark-text/60;
+  }
+}

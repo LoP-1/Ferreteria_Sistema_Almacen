@@ -14,5 +14,9 @@ export const WAREHOUSE_OUT_ROUTES: Routes = [
     path: 'new', // Ruta para registrar una nueva salida (/dashboard/warehouse-out/new)
     component: WarehouseOutForm
   // Podrías añadir una ruta 'view/:id' si necesitas ver el detalle de una salida
+  },
+  {
+      path: 'edit/:id', // Ruta -> /dashboard/employees/edit/1
+      component: WarehouseOutForm
   }
 ];

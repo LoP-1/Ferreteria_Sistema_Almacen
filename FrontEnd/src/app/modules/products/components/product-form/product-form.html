@@ -1,85 +1,99 @@
-<div class="bg-neutral-light dark:bg-dark-background min-h-screen flex items-center justify-center p-4 font-sans animate-fade-in">
+<!-- Fondo decorativo (opcional) -->
+<div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
+  <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob dark:opacity-40"></div>
+  <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000 dark:opacity-40"></div>
+  <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000 dark:opacity-40"></div>
+</div>
 
-  <div class="w-full max-w-4xl bg-white/70 dark:bg-dark-background/70 backdrop-blur-xl border border-white/20 dark:border-zinc-700/50 rounded-2xl shadow-2xl overflow-hidden">
-    
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="flex flex-col h-full">
+<div class="w-full max-w-4xl mx-auto">
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form-container">
 
-      <header class="p-6 sm:p-8 border-b border-gray-300/50 dark:border-zinc-700/50">
-        <h1 class="text-3xl font-bold text-primary dark:text-dark-primary">{{ pageTitle }}</h1>
-        <p class="text-text-dark/70 dark:text-dark-text/70 mt-1">Completa los detalles del producto a continuación.</p>
-      </header>
+    <!-- Bloque de Notificación -->
+    <div *ngIf="notification.show" class="notification" [ngClass]="{
+      'notification-success': notification.type === 'success',
+      'notification-error': notification.type === 'error'
+    }">
+      <div class="flex items-center">
+        <svg *ngIf="notification.type === 'success'" class="h-6 w-6 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <svg *ngIf="notification.type === 'error'" class="h-6 w-6 mr-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+        <span>{{ notification.message }}</span>
+      </div>
+      <button type="button" (click)="hideNotification()" class="ml-4 -mr-1 p-1"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+    </div>
+
+    <header class="text-center mb-10">
+      <h1 class="text-4xl md:text-5xl font-bold form-header-gradient">{{ pageTitle }}</h1>
+      <p class="text-text-dark/70 dark:text-dark-text/70 mt-2">Gestiona tu inventario con precisión y facilidad.</p>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-8">
+
+      <!-- Campo: Nombre del Producto -->
+      <div class="relative group animate-form-field md:col-span-2" style="--delay: 100ms;">
+        <div class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a1 1 0 011-1h5a.997.997 0 01.707.293l7 7zM6 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" /></svg></div>
+        <input type="text" id="name" formControlName="name" class="form-input-field peer" placeholder=" ">
+        <label for="name" class="form-label">Nombre del Producto</label>
+        <div *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" class="form-error-message">El nombre es requerido.</div>
+      </div>
+
+      <!-- Campo: Código (SKU) -->
+      <div class="relative group animate-form-field" style="--delay: 200ms;">
+        <div class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3h4v4H3V3zm6 0h4v4H9V3zm6 0h4v4h-4V3zM3 9h4v4H3V9zm6 0h4v4H9V9zm6 6h4v-4h-4v4zM9 15h4v-4H9v4zm-6 0h4v-4H3v4z" clip-rule="evenodd" /></svg></div>
+        <input type="text" id="code" formControlName="code" class="form-input-field peer" placeholder=" ">
+        <label for="code" class="form-label">Código (SKU)</label>
+        <div *ngIf="productForm.get('code')?.invalid && productForm.get('code')?.touched" class="form-error-message">El código es requerido.</div>
+      </div>
+
+      <!-- Campo: Categoría -->
+      <div class="relative group animate-form-field" style="--delay: 300ms;">
+        <div class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" /></svg></div>
+        <select id="category" formControlName="category" class="form-input-field peer">
+          <option value="" disabled selected></option> <!-- Opción vacía para el placeholder -->
+          <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+        </select>
+        <label for="category" class="form-label">Categoría</label>
+        <div *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched" class="form-error-message">Selecciona una categoría.</div>
+      </div>
+
+      <!-- Campo: Precio -->
+      <div class="relative group animate-form-field" style="--delay: 400ms;">
+        <div class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h12v4a2 2 0 002 2V6a2 2 0 00-2-2H4z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M4 10a2 2 0 00-2 2v4a2 2 0 002 2h12a2 2 0 002-2v-4a2 2 0 00-2-2H4zm10 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" /></svg></div>
+        <input type="number" id="price" formControlName="price" class="form-input-field peer" placeholder=" ">
+        <label for="price" class="form-label">Precio (S/.)</label>
+        <div *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" class="form-error-message">El precio es inválido.</div>
+      </div>
+
+      <!-- Campo: Stock -->
+      <div class="relative group animate-form-field" style="--delay: 500ms;">
+        <div class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a1 1 0 001 1h1.586l.293.293a1 1 0 001.414 0L8 14.586V14h4v.586l.293.293a1 1 0 001.414 0L14.414 14H16a1 1 0 001-1V5a1 1 0 000-2H3zm-1 2a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2h-2.586l-1.293 1.293a.999.999 0 01-1.414 0L10 15.586V15H8v.586l-1.293 1.293a.999.999 0 01-1.414 0L4.586 15H2a2 2 0 01-2-2V5z" clip-rule="evenodd" /></svg></div>
+        <input type="number" id="stock" formControlName="stock" class="form-input-field peer" placeholder=" ">
+        <label for="stock" class="form-label">Stock Inicial</label>
+        <div *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched" class="form-error-message">El stock es requerido.</div>
+      </div>
+
+      <!-- Campo: Proveedor -->
+      <div class="relative group animate-form-field md:col-span-2" style="--delay: 600ms;">
+        <div class="form-icon-wrapper"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /><path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H11v-1H5.95a2.5 2.5 0 01-4.9 0V6h14v3h1V5a1 1 0 00-1-1H3zM14 9H5v1h9V9z" /></svg></div>
+        <select id="supplierRuc" formControlName="supplierRuc" class="form-input-field peer">
+          <option value="" disabled selected></option>
+          <option *ngFor="let sup of suppliers" [value]="sup.ruc">{{ sup.name }}</option>
+        </select>
+        <label for="supplierRuc" class="form-label">Proveedor</label>
+        <div *ngIf="productForm.get('supplierRuc')?.invalid && productForm.get('supplierRuc')?.touched" class="form-error-message">Selecciona un proveedor.</div>
+      </div>
       
-      <main class="flex-grow p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 overflow-y-auto">
-        
-        <div class="col-span-2 animate-fade-in-up" style="--delay: 100ms;">
-          <label for="name" class="block text-sm font-semibold text-primary dark:text-dark-primary mb-2">Nombre del Producto</label>
-          <input type="text" id="name" formControlName="name"
-                 class="form-input dark:bg-zinc-800 dark:border-zinc-600 dark:text-dark-text dark:placeholder-gray-500 dark:focus:ring-secondary dark:focus:border-secondary"
-                 [ngClass]="{ 'input-error': productForm.get('name')?.invalid && productForm.get('name')?.touched }"
-                 placeholder="Ej: Martillo de Goma 16oz">
-        </div>
+      <!-- Campo: Descripción -->
+      <div class="relative group animate-form-field md:col-span-2" style="--delay: 700ms;">
+        <div class="form-icon-wrapper !items-start !pt-3"><svg class="form-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10zm0 5.25a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75z" clip-rule="evenodd" /></svg></div>
+        <textarea id="description" formControlName="description" rows="4" class="form-input-field peer !h-24" placeholder=" "></textarea>
+        <label for="description" class="form-label">Descripción (Opcional)</label>
+      </div>
 
-        <div class="animate-fade-in-up" style="--delay: 200ms;">
-          <label for="code" class="block text-sm font-semibold text-primary dark:text-dark-primary mb-2">Código (SKU)</label>
-          <input type="text" id="code" formControlName="code"
-                 class="form-input dark:bg-zinc-800 dark:border-zinc-600 dark:text-dark-text dark:placeholder-gray-500 dark:focus:ring-secondary dark:focus:border-secondary"
-                 [ngClass]="{ 'input-error': productForm.get('code')?.invalid && productForm.get('code')?.touched }"
-                 placeholder="Ej: HERR-005">
-        </div>
+    </main>
 
-        <div class="animate-fade-in-up" style="--delay: 250ms;">
-          <label for="category" class="block text-sm font-semibold text-primary dark:text-dark-primary mb-2">Categoría</label>
-          <select id="category" formControlName="category" class="form-select dark:bg-zinc-800 dark:border-zinc-600 dark:text-dark-text dark:focus:ring-secondary dark:focus:border-secondary"
-                  [ngClass]="{ 'input-error': productForm.get('category')?.invalid && productForm.get('category')?.touched }">
-            <option [ngValue]="null" disabled>Selecciona una categoría</option>
-            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-          </select>
-        </div>
-
-        <div class="animate-fade-in-up" style="--delay: 300ms;">
-          <label for="price" class="block text-sm font-semibold text-primary dark:text-dark-primary mb-2">Precio (S/.)</label>
-          <input type="number" id="price" formControlName="price"
-                 class="form-input dark:bg-zinc-800 dark:border-zinc-600 dark:text-dark-text dark:placeholder-gray-500 dark:focus:ring-secondary dark:focus:border-secondary"
-                 [ngClass]="{ 'input-error': productForm.get('price')?.invalid && productForm.get('price')?.touched }"
-                 placeholder="0.00">
-        </div>
-
-        <div class="animate-fade-in-up" style="--delay: 350ms;">
-          <label for="stock" class="block text-sm font-semibold text-primary dark:text-dark-primary mb-2">Stock Inicial</label>
-          <input type="number" id="stock" formControlName="stock"
-                 class="form-input dark:bg-zinc-800 dark:border-zinc-600 dark:text-dark-text dark:placeholder-gray-500 dark:focus:ring-secondary dark:focus:border-secondary"
-                 [ngClass]="{ 'input-error': productForm.get('stock')?.invalid && productForm.get('stock')?.touched }"
-                 placeholder="0">
-        </div>
-
-        <div class="col-span-2 animate-fade-in-up" style="--delay: 400ms;">
-          <label for="supplier" class="block text-sm font-semibold text-primary dark:text-dark-primary mb-2">Proveedor</label>
-          <select id="supplier" formControlName="supplier" class="form-select dark:bg-zinc-800 dark:border-zinc-600 dark:text-dark-text dark:focus:ring-secondary dark:focus:border-secondary"
-                  [ngClass]="{ 'input-error': productForm.get('supplier')?.invalid && productForm.get('supplier')?.touched }">
-            <option [ngValue]="null" disabled>Selecciona un proveedor</option>
-            <option *ngFor="let sup of suppliers" [value]="sup">{{ sup }}</option>
-          </select>
-        </div>
-
-        <div class="col-span-2 animate-fade-in-up" style="--delay: 450ms;">
-          <label for="description" class="block text-sm font-semibold text-primary dark:text-dark-primary mb-2">Descripción (Opcional)</label>
-          <textarea id="description" formControlName="description" rows="4"
-                    class="form-input dark:bg-zinc-800 dark:border-zinc-600 dark:text-dark-text dark:placeholder-gray-500 dark:focus:ring-secondary dark:focus:border-secondary"
-                    placeholder="Añade una breve descripción sobre el producto..."></textarea>
-        </div>
-      </main>
-
-      <footer class="p-6 sm:p-8 bg-black/5 dark:bg-black/20 flex justify-end items-center gap-4">
-        <button type="button" (click)="cancel()" 
-                class="px-6 py-3 bg-transparent text-text-dark dark:text-dark-text font-bold rounded-lg hover:bg-gray-300/50 dark:hover:bg-zinc-700/50 transition-all duration-300">
-          Cancelar
-        </button>
-        <button type="submit" [disabled]="productForm.invalid"
-                class="flex items-center gap-2 px-6 py-3 bg-secondary text-text-dark dark:text-dark-background font-bold rounded-lg shadow-lg hover:shadow-xl hover:bg-yellow-500 dark:hover:bg-yellow-400 transform hover:-translate-y-1 transition-all duration-300 ease-in-out disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed">
-          {{ isEditMode ? 'Guardar Cambios' : 'Crear Producto' }}
-        </button>
-      </footer>
-    </form>
-    
-  </div>
+    <footer class="form-actions-container">
+      <button type="button" (click)="goBack()" class="btn-secondary">Cancelar</button>
+      <button type="submit" [disabled]="productForm.invalid" class="btn-primary">{{ isEditMode ? 'Guardar Cambios' : 'Crear Producto' }}</button>
+    </footer>
+  </form>
 </div>

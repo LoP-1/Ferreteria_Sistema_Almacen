@@ -1,52 +1,131 @@
-<div class="container mx-auto">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-800">Gestión de Empleados</h1>
-    <a routerLink="new" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
-      Añadir Empleado
-    </a>
-  </div>
+<div class="bg-neutral-light dark:bg-dark-background text-text-dark dark:text-dark-text min-h-screen font-sans">
+  <div class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
 
-  <div class="bg-white shadow-md rounded-lg overflow-hidden">
-    <table class="min-w-full leading-normal">
-      <thead class="bg-gray-800 text-white">
-        <tr>
-          <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Nombre</th>
-          <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Cargo</th>
-          <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Email</th>
-          <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Estado</th>
-          <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold uppercase tracking-wider">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="hover:bg-gray-100">
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">Juan Pérez</td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">Desarrollador Backend</td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">juan.perez@email.com</td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">
-            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-              <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-              <span class="relative">Activo</span>
-            </span>
-          </td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">
-            <a routerLink="edit/1" class="text-indigo-600 hover:text-indigo-900">Editar</a>
-          </td>
-        </tr>
-        <tr class="hover:bg-gray-100">
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">Ana Gómez</td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">Diseñadora UX</td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">ana.gomez@email.com</td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">
-            <span class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
-              <span aria-hidden class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-              <span class="relative">Inactivo</span>
-            </span>
-          </td>
-          <td class="px-5 py-4 border-b border-gray-200 text-sm">
-             <a routerLink="edit/2" class="text-indigo-600 hover:text-indigo-900">Editar</a>
-          </td>
-        </tr>
-        </tbody>
-    </table>
+    <header class="flex flex-col sm:flex-row justify-between items-center pb-6 mb-6 border-b border-primary/10 dark:border-dark-border animate-fade-in-down">
+      <div>
+        <h1 class="text-3xl font-bold text-primary dark:text-dark-primary">Gestión de Empleados</h1>
+        <p class="text-text-dark/60 dark:text-dark-text/60 mt-1">Busca, visualiza y administra tu equipo.</p>
+      </div>
+      <a routerLink="new" class="group mt-4 sm:mt-0 flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold rounded-lg shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 transform hover:-translate-y-0.5 transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+        </svg>
+        <span>Nuevo Empleado</span>
+      </a>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8 animate-fade-in-up" style="animation-delay: 100ms;">
+      <div class="relative lg:col-span-2">
+        <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por nombre, posición o email..." class="w-full pl-11 pr-4 py-3 bg-white dark:bg-dark-field border-2 border-primary/10 dark:border-dark-border focus:border-primary dark:focus:border-dark-primary focus:ring-2 focus:ring-primary/20 rounded-xl shadow-sm transition-all duration-300 placeholder:text-text-dark/40">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text-dark/40">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+      <div class="flex items-center justify-around bg-white dark:bg-dark-card p-3 rounded-xl shadow-sm border border-primary/10 dark:border-dark-border">
+        <div class="text-center">
+          <span class="text-2xl font-bold text-primary dark:text-dark-primary">{{ totalEmployees }}</span>
+          <p class="text-xs text-text-dark/60 dark:text-dark-text/60">Total</p>
+        </div>
+        <div class="h-8 w-px bg-primary/10 dark:bg-dark-border"></div>
+        <div class="text-center">
+          <span class="text-2xl font-bold text-accent-green dark:text-dark-green">{{ activeEmployees }}</span>
+          <p class="text-xs text-text-dark/60 dark:text-dark-text/60">Activos</p>
+        </div>
+      </div>
+    </div>
+
+    <main class="animate-fade-in-up" style="animation-delay: 200ms;">
+      <div *ngIf="filteredEmployees.length > 0; else emptyState" class="space-y-4">
+
+        <div *ngFor="let employee of filteredEmployees; let i = index" class="employee-row group" [style.animation-delay]="i * 50 + 'ms'">
+          <div class="flex items-center gap-4 w-full md:w-4/12 lg:w-3/12">
+            <div class="relative shrink-0">
+              <img class="w-12 h-12 rounded-full object-cover" [src]="employee.avatar" alt="Avatar de {{employee.name}}">
+              <span class="absolute bottom-0 right-0 block h-3.5 w-3.5 rounded-full border-2 border-white dark:border-dark-card" [ngClass]="{
+                  'bg-accent-green': employee.status === 'Activo',
+                  'bg-danger': employee.status === 'Inactivo',
+                  'bg-secondary': employee.status === 'En Pausa'
+                }">
+              </span>
+            </div>
+            <div>
+              <p class="font-bold truncate" [title]="employee.name">{{ employee.name }}</p>
+              <p class="text-sm text-text-dark/60 dark:text-dark-text/60 font-mono">{{ employee.email }}</p>
+            </div>
+          </div>
+
+          <div class="w-full md:w-3/12 lg:w-3/12">
+            <p>{{ employee.position }}</p>
+          </div>
+
+          <div class="w-full md:w-4/12 lg:w-4/12">
+            <div class="flex justify-between items-center text-xs text-text-dark/80 dark:text-dark-text/80 mb-1">
+              <span>Rendimiento</span>
+              <span class="font-semibold text-primary dark:text-dark-primary">{{ employee.performance }}%</span>
+            </div>
+            <div class="w-full bg-primary/10 dark:bg-dark-field rounded-full h-2">
+              <div class="bg-gradient-to-r from-primary to-secondary h-2 rounded-full" [style.width.%]="employee.performance"></div>
+            </div>
+          </div>
+
+          <div class="w-auto flex justify-end items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button (click)="openModal(employee)" class="action-button" title="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            </button>
+            <a [routerLink]="['edit', employee.id]" class="action-button" title="Editar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" /></svg>
+            </a>
+            <button class="action-button text-danger dark:text-dark-red hover:bg-danger/10 dark:hover:bg-dark-red/20" title="Eliminar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" /></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #emptyState>
+        <div class="text-center py-20 px-6 bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-primary/10 dark:border-dark-border">
+          <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-primary/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21v-2a4 4 0 00-4-4H9a4 4 0 00-4 4v2" />
+          </svg>
+          <h3 class="mt-4 text-xl font-bold">No hay empleados</h3>
+          <p class="mt-1 text-text-dark/60 dark:text-dark-text/60">Comienza añadiendo un nuevo miembro a tu equipo.</p>
+        </div>
+      </ng-template>
+    </main>
+
+  </div>
+</div>
+
+<div *ngIf="isModalOpen" (click)="closeModal()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 transition-opacity duration-300" [ngClass]="isModalOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'">
+  <div (click)="$event.stopPropagation()" *ngIf="selectedEmployee" class="bg-neutral-light dark:bg-dark-card w-full max-w-md rounded-2xl shadow-2xl p-8 transition-all duration-300 ease-out" [ngClass]="isModalOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'">
+    
+    <div class="flex flex-col items-center text-center">
+      <img class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-white dark:border-dark-card shadow-lg" [src]="selectedEmployee.avatar" alt="Avatar">
+      <h2 class="text-2xl font-bold text-primary dark:text-dark-primary">{{ selectedEmployee.name }}</h2>
+      <p class="text-text-dark/80 dark:text-dark-text/80">{{ selectedEmployee.position }}</p>
+    </div>
+
+    <div class="mt-6 pt-6 border-t border-primary/10 dark:border-dark-border space-y-4">
+      <div class="detail-item">
+        <span class="detail-label">Estado</span>
+        <span class="px-3 py-1 text-xs font-bold rounded-full" [ngClass]="{
+            'bg-accent-green/10 text-accent-green-dark': selectedEmployee.status === 'Activo',
+            'bg-danger/10 text-danger': selectedEmployee.status === 'Inactivo',
+            'bg-secondary/10 text-secondary': selectedEmployee.status === 'En Pausa'
+          }">{{ selectedEmployee.status }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Email</span>
+        <span class="font-mono text-sm">{{ selectedEmployee.email }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="detail-label">Fecha de Ingreso</span>
+        <span>{{ selectedEmployee.joinDate | date:'longDate' }}</span>
+      </div>
+    </div>
+    
+    <button (click)="closeModal()" class="w-full mt-8 py-2.5 bg-primary hover:bg-primary-hover text-white font-bold rounded-lg transition-all duration-300">Cerrar</button>
   </div>
 </div>
