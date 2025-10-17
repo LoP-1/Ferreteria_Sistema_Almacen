@@ -6,13 +6,16 @@ import quantify.sistema.almacenes.models.Productos;
 import quantify.sistema.almacenes.models.movimiento.DetalleSalida;
 import quantify.sistema.almacenes.models.movimiento.Salidas;
 import quantify.sistema.almacenes.record.salida.Producto;
+import quantify.sistema.almacenes.record.salida.SalidaDTO;
 import quantify.sistema.almacenes.record.salida.SalidaProductosDTO;
 import quantify.sistema.almacenes.repository.DetalleSalidaRepository;
 import quantify.sistema.almacenes.repository.EmpleadosRepository;
 import quantify.sistema.almacenes.repository.ProductosRepository;
 import quantify.sistema.almacenes.repository.SalidasRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SalidaService {
@@ -68,6 +71,26 @@ public class SalidaService {
         }
 
         return "Entrega de productos completada. Boleta: " + entrega.getBoleta();
+    }
+
+    public List<SalidaDTO> listarSalidas() {
+        return salidasRepository.findAll().stream().map(salida -> {
+            List<Producto> productos = salida.getDetalles().stream().map(detalle ->
+                    new Producto(
+                            detalle.getProducto().getCodigoSku(),
+                            detalle.getCantidad()
+                    )
+            ).collect(Collectors.toList());
+
+            return new SalidaDTO(
+                    salida.getIdSalida(),
+                    salida.getFechaSalida(),
+                    salida.getBoleta(),
+                    salida.getMotivo(),
+                    salida.getEmpleadoResponsable().getNombres() + " " + salida.getEmpleadoResponsable().getApellidos(),
+                    productos
+            );
+        }).collect(Collectors.toList());
     }
 
 }

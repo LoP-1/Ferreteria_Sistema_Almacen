@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import quantify.sistema.almacenes.models.Empleados;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "salidas")
@@ -25,7 +26,20 @@ public class Salidas {
     @Column(nullable = false)
     private String motivo;
 
+
+    @OneToMany(mappedBy = "salida", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DetalleSalida> detalles;
+
+    public List<DetalleSalida> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<DetalleSalida> detalles) {
+        this.detalles = detalles;
+    }
     // Getters y Setters
+
+
 
     public Integer getIdSalida() {
         return idSalida;
