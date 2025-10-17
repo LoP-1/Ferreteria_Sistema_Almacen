@@ -1,4 +1,4 @@
-POST    http://localhost:8080/auth/registrar
+GET   http://localhost:8080/salidas
 Content-Type: application/json
 
 {
