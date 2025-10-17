@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import quantify.sistema.almacenes.models.Proveedores;
 import quantify.sistema.almacenes.service.ProveedoresService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/proveedores")
 public class ProveedoresController {
@@ -22,6 +24,11 @@ public class ProveedoresController {
     @PutMapping("/agregar")
     public String actulizarProveedor(@RequestBody Proveedores proveedores){
         return proveedoresService.actualizarProveedor(proveedores);
+    }
+
+    @GetMapping ("/listar")
+    public List<Proveedores> listarProveedores(){
+        return proveedoresService.listarProveedores();
     }
 
 }
