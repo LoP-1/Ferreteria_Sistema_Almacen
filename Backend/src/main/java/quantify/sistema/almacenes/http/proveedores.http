@@ -1,0 +1,29 @@
+### Add a new provider
+POST http://localhost:8080/proveedores/agregar
+Content-Type: application/json
+
+{
+  "nombreEmpresa": "Acme S.A.C.",
+  "ruc": "20481234567",
+  "contactoNombre": "Juan Pérez",
+  "telefono": "987654321",
+  "email": "contacto@acme.com",
+  "descripcion": "Proveedor especializado en herramientas."
+}
+
+### Update existing provider
+PUT http://localhost:8080/proveedores/agregar
+Content-Type: application/json
+
+{
+  "idProveedor": 1,
+  "nombreEmpresa": "Acme S.A.C. 2025",
+  "ruc": "20481234567",
+  "contactoNombre": "Juan Pérez",
+  "telefono": "987654321",
+  "email": "contactonuevo@acme.com",
+  "descripcion": "Proveedor especializado en herramientas y materiales."
+}
+
+### List all providers
+GET http://localhost:8080/proveedores/listar

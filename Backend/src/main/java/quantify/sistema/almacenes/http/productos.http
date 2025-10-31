@@ -1,0 +1,23 @@
+### Add a new product
+POST http://localhost:8080/productos
+Content-Type: application/json
+
+{
+  "codigoSku": "SKU123",
+  "nombre": "Martillo",
+  "descripcion": "Martillo de acero forjado",
+  "precioCompra": 25.50,
+  "stockInicial": 100,
+  "stockMinimo": 20,
+  "categoria": "Herramientas",
+  "rucProveedor": "20481234567"
+}
+
+### Add stock to existing product
+POST http://localhost:8080/productos/stock?cantidad=50&codigoSku=SKU123
+
+### Get all products
+GET http://localhost:8080/productos
+
+### Get products with low stock
+GET http://localhost:8080/productos/bajoStock
