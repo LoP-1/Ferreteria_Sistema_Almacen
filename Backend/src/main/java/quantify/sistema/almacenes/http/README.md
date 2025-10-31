@@ -5,7 +5,7 @@ This directory contains HTTP request files for testing all API endpoints of the 
 ## Files Overview
 
 - **auth.http** - Authentication endpoints (register, login, list users)
-- **productos.http** - Product management endpoints (add, update stock, list, low stock)
+- **productos.http** - Product management endpoints (add, add stock, list, low stock)
 - **proveedores.http** - Provider management endpoints (add, update, list)
 - **salidas.http** - Product exit/delivery endpoints (register, list)
 
@@ -68,3 +68,10 @@ curl -X POST http://localhost:8080/auth/registrar \
 - Make sure to update IDs in the requests based on your actual data
 - The application uses an H2 in-memory database, so data is lost on restart
 - All endpoints return JSON responses
+
+## Security Notice
+
+⚠️ **WARNING**: The test files contain example credentials for development/testing purposes only.
+- Never use these credentials in production
+- Never commit actual production credentials to version control
+- Change all passwords before deploying to any environment
