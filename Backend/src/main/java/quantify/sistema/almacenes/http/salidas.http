@@ -1,0 +1,18 @@
+### Register a product exit/delivery
+POST http://localhost:8080/salidas
+Content-Type: application/json
+
+{
+  "idEmpleado": 1,
+  "NroBoleta": "BOL-001",
+  "comentarios": "Entrega a cliente corporativo",
+  "productosList": [
+    {
+      "CodigoSku": "SKU123",
+      "cantidad": 5
+    }
+  ]
+}
+
+### Get all exits/deliveries
+GET http://localhost:8080/salidas
